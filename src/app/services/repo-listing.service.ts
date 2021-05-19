@@ -35,12 +35,8 @@ export class RepoListingService {
   private dataMap : CachedData  = {}
 
   constructor(private httpClient  : HttpClient) { 
-    window['service'] = this
   }
 
-  /*=====================================================================
-                              PRIVATE
-  =====================================================================*/
 
   async getUserInfo(userName  : string) {
 
@@ -51,11 +47,10 @@ export class RepoListingService {
     } catch(err) {
       return err
     }
-  
   }
 
   async getReposforUserName(userName  : string, 
-                           pageNumber : number = 1, 
+                           pageNumber : number  = 1, 
                            direction  : string  = 'desc') : Promise<object[] | HttpErrorResponse> {
 
     if (!this.dataMap[direction] || !this.dataMap[direction]['data'] || !this.dataMap[direction]['data'][pageNumber]) {

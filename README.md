@@ -8,7 +8,7 @@ Please make sure you are using latest angular cli. Refer `https://angular.io/gui
 
 ## Cloning the repo
 
-Run `git clone https://github.com/rvab/repo-listing-app.git` to clone the repo your local.
+Run `git clone https://github.com/rvab/repo-listing-app.git` to clone the repo to your local machine.
 
 
 ##  Install the packages

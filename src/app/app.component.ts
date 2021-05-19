@@ -50,14 +50,15 @@ export class AppComponent {
     this.showSkeleton = true
 
     this.currentPage  = 1
+
     const resp  = await this.repoListingService.getUserInfo(userName)
-    console.log({resp})
+
     if (resp['error']) {
 
       if (resp['status'] === 404) {
         this.errorText  = 'User not found'
       } else {
-        this.errorText    = resp['statusText']
+        this.errorText  = resp['statusText']
       }
       this.showSkeleton = false
       this.resetPreviousData()
@@ -123,8 +124,8 @@ export class AppComponent {
     const resp  = await this.repoListingService.getReposforUserName(this.userName, this.currentPage, direction)
 
     if (resp['error']) {
-      this.errorText  = resp['statusText']
-      this.showSkeleton   = false
+      this.errorText    = resp['statusText']
+      this.showSkeleton = false
       return
     }
 
