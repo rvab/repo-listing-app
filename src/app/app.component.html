@@ -1,20 +1,73 @@
-<!--The content below is only a placeholder and can be replaced.-->
-<div style="text-align:center">
-  <h1>
-    Welcome to {{ title }}!
-  </h1>
-  <img width="300" alt="Angular Logo" src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNTAgMjUwIj4KICAgIDxwYXRoIGZpbGw9IiNERDAwMzEiIGQ9Ik0xMjUgMzBMMzEuOSA2My4ybDE0LjIgMTIzLjFMMTI1IDIzMGw3OC45LTQzLjcgMTQuMi0xMjMuMXoiIC8+CiAgICA8cGF0aCBmaWxsPSIjQzMwMDJGIiBkPSJNMTI1IDMwdjIyLjItLjFWMjMwbDc4LjktNDMuNyAxNC4yLTEyMy4xTDEyNSAzMHoiIC8+CiAgICA8cGF0aCAgZmlsbD0iI0ZGRkZGRiIgZD0iTTEyNSA1Mi4xTDY2LjggMTgyLjZoMjEuN2wxMS43LTI5LjJoNDkuNGwxMS43IDI5LjJIMTgzTDEyNSA1Mi4xem0xNyA4My4zaC0zNGwxNy00MC45IDE3IDQwLjl6IiAvPgogIDwvc3ZnPg==">
-</div>
-<h2>Here are some links to help you start: </h2>
-<ul>
-  <li>
-    <h2><a target="_blank" rel="noopener" href="https://angular.io/tutorial">Tour of Heroes</a></h2>
-  </li>
-  <li>
-    <h2><a target="_blank" rel="noopener" href="https://angular.io/cli">CLI Documentation</a></h2>
-  </li>
-  <li>
-    <h2><a target="_blank" rel="noopener" href="https://blog.angular.io/">Angular blog</a></h2>
-  </li>
-</ul>
+<div class="app-comp">
 
+  <div class="input-cont">
+    <label for="user-name">Enter github username:</label>
+    <input id="user-name"  type="text" placeholder="aditya"  value="johnpapa" #inputCont/>
+  </div>
+
+  <button type="button" class="btn btn-primary" (click)="submit(inputCont)">
+    submit
+  </button>
+
+
+  <div class="error-text" *ngIf="!userInfo && errorText">
+    {{ errorText }}
+  </div>
+
+  <div class="content-div" *ngIf="userInfo || repoLists || showSkeleton">
+
+    <div class="user-info-cont" >
+
+      <app-user-details
+        [userDetails]="userInfo"
+        [showSkeleton]="showSkeleton">
+      </app-user-details>
+    </div>
+    
+
+    <div class="repo-listing-cont">
+
+      <div class="error-text" *ngIf="errorText">
+        {{ errorText}}
+
+        <button type="button" class="btn btn-primary" (click)="onPageNumberChange(currentPage)">
+          Retry
+        </button>
+      </div>
+
+      <app-repo-list *ngIf="!errorText"
+        [repoList]="repoLists"
+        [showSkeleton]="showSkeleton">
+      </app-repo-list>
+      
+    </div>
+
+    <div class="pagination-cont" *ngIf="totalRepos">
+      <ngb-pagination 
+        [collectionSize]="totalRepos" 
+        [page]="currentPage"
+        (pageChange)="onPageNumberChange($event)">
+      </ngb-pagination>
+
+      <div class="older-newer-cont">
+
+        <button [style.color]="direction === 'asc' ? '#007bff' : 'black'" 
+          (click)="onPageNumberChange(currentPage, 'asc')">
+          <mat-icon>arrow_back</mat-icon>
+          Older
+        </button>
+
+        <button [style.color]="direction === 'desc' ? '#007bff' : 'black'"
+          (click)="onPageNumberChange(currentPage, 'desc')">
+          Newer
+          <mat-icon>arrow_forward</mat-icon>
+        </button>
+
+
+      </div>
+
+    </div>
+  
+  </div>
+
+</div>

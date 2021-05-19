@@ -1,0 +1,41 @@
+<div class="repo-list-comp" [class.show-skeleton]="showSkeleton">
+
+  <ng-container *ngFor="let repo of repoList; let i = index">
+
+    <div class="single-repo">
+
+      <div class="repo-name-cont">
+        <ng-container *ngIf="repo?.name">
+          <a href="https://github.com/{{repo.full_name}}" target="_blank">{{ repo?.name}}</a>
+        </ng-container>
+      </div>
+
+      <div class="repo-desc-cont">
+
+        <ng-container *ngIf="repo?.description">
+          {{ repo.description}}
+        </ng-container>
+
+      </div>
+
+      <div class="repo-topics-cont" >
+
+        <ng-container *ngIf="repo?.topics?.length">
+
+          <ng-container *ngFor="let topic of repo.topics">
+
+            <button type="button" class="btn btn-primary" >
+              {{ topic }}
+            </button>
+
+          </ng-container>
+        </ng-container>
+
+
+      </div>
+
+    </div>
+
+  </ng-container>
+
+</div>

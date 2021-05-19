@@ -1,0 +1,54 @@
+<div class="user-details-comp" [class.show-skeleton]="showSkeleton">
+
+  <div class="user-basic-info">
+
+    <div class="image-cont">
+      <ng-container *ngIf="userDetails?.imageUrl">
+        <img class="img" src="{{ userDetails.imageUrl }}" alt="user image">
+      </ng-container>
+    </div>
+    
+    <div class="user-info">
+      <span class="user-name">
+        <ng-container *ngIf="userDetails?.name">
+          {{ userDetails.name }}
+        </ng-container>
+      </span>
+
+      <span class="bio">
+        <ng-container *ngIf="userDetails?.bio">
+          {{ userDetails.bio }}
+        </ng-container>
+      </span>
+
+      <span class="location">
+
+        <ng-container *ngIf="userDetails?.location">
+          <mat-icon> location_on</mat-icon>
+          {{ userDetails.location}}
+
+        </ng-container>
+
+      </span>
+
+      <span class="twitter">
+
+        <ng-container *ngIf="userDetails?.twitterUrl">
+          Twitter : 
+          <a href="https://twitter.com/{{ userDetails.twitterUrl}}" target="_blank">https://twitter.com/{{ userDetails.twitterUrl}} </a>
+        </ng-container>
+        
+      </span>
+
+    </div>
+
+  </div>
+
+  <div class="github-url">
+    <ng-container *ngIf="userDetails?.htmlUrl">
+      <mat-icon> link</mat-icon>
+      <a href="{{userDetails.htmlUrl}}" target="_blank" class="url">{{userDetails.htmlUrl}}</a>
+    </ng-container>
+  </div>
+
+</div>

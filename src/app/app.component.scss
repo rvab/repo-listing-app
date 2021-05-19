@@ -1,0 +1,72 @@
+.app-comp {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin-top: 20px;
+  
+}
+
+label {
+  margin: 0 10px 10px 0;
+}
+
+button {
+  margin-top: 10px;
+}
+
+.input-cont {
+  display: flex;
+  align-items: center;
+}
+
+.pagination-cont {
+  position: relative;
+  margin-top: 20px;
+  align-self: center;
+  min-width: 350px;
+}
+
+.content-div {
+  position: relative;
+  margin: 20px;
+  border: 1px solid black;
+  padding: 20px;
+  width: 80%;
+  display: flex;
+  flex-direction: column;
+}
+
+.error-text {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 40px 0;
+  flex-direction: column;
+  color: red;
+}
+
+.older-newer-cont {
+
+  position: relative;
+  display: flex;
+  justify-content: space-between;
+
+  button {
+    width: 150px;
+    height: 40px;
+    border-radius: 20px;
+    background: white;
+    opacity: 0.65;
+    font-family: "Roboto Regular" !important;
+    font-weight: normal;
+    font-size: 15px;
+    text-align: center;
+    border: 1px solid grey;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+}
