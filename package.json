@@ -3,11 +3,16 @@
   "version": "0.0.0",
   "scripts": {
     "ng": "ng",
-    "start": "ng serve",
+    "start": "node server.js",
     "build": "ng build",
     "test": "ng test",
     "lint": "ng lint",
-    "e2e": "ng e2e"
+    "e2e": "ng e2e",
+    "heroku-postbuild": "ng build — prod"
+  },
+  "engines": { 
+    "node": "14.17.5", 
+    "npm": "6.14.14" 
   },
   "private": true,
   "dependencies": {
@@ -25,6 +30,8 @@
     "@ng-bootstrap/ng-bootstrap": "^9.1.1",
     "bootstrap": "^4.5.0",
     "core-js": "^2.5.4",
+    "express": "^4.17.3",
+    "path": "^0.12.7",
     "rxjs": "~6.6.7",
     "tslib": "^2.0.0",
     "zone.js": "~0.11.4"
