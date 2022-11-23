@@ -53,7 +53,7 @@ export class AppComponent {
 
     const resp  = await this.repoListingService.getUserInfo(userName)
 
-    if (resp['error']) {
+    if (resp['error']) { 
 
       if (resp['status'] === 404) {
         this.errorText  = 'User not found'
