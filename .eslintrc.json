@@ -1,0 +1,35 @@
+{
+  "env": {
+    "es6": true,
+    "browser": true
+  },
+  "globals":{
+    "Insert Global Here": true
+  },
+  "parser": "@babel/eslint-parser",
+  "extends": ["plugin:angular/johnpapa", "plugin:diff/diff"],
+  "rules": {
+    "linebreak-style": "off",
+    "semi": ["error", "always"],
+    "key-spacing": ["error", { "beforeColon": false }],
+    "indent": ["error", 2],
+    "keyword-spacing": ["error", { "before": true }],
+    "lines-between-class-members": ["error", "always"],
+    "brace-style": "error",
+    "no-trailing-spaces": "error",
+    "no-console": "off",
+    "no-debugger": "warn",
+    "angular/file-name": "off",
+    "angular/controller-name": "off",
+    "angular/no-service-method": "off",
+    "angular/module-setter": "off",
+    "angular/module-getter": "off",
+    "angular/no-run-logic": "off",
+    "angular/controller-as": "off",
+    "no-var": ["error"],
+    "prefer-const": ["error"],
+    "arrow-body-style": ["error", "as-needed", { "requireReturnForObjectLiteral": true }],
+    "prefer-arrow-callback": [ "error"],
+    "prefer-template": "error"
+  }
+}
