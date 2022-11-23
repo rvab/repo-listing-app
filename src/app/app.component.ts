@@ -14,8 +14,8 @@ export class AppComponent {
   totalRepos: number;
   currentPage: number;
   showSkeleton: boolean = false;
-  direction: string = "desc";
-  errorText: string = ""   
+  direction: string = "desc"
+  errorText: string = ""
 
   private userName: string = "";
 
