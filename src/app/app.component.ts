@@ -15,7 +15,7 @@ export class AppComponent {
   currentPage: number;
   showSkeleton: boolean = false;
   direction: string = "desc";
-  errorText: string = "";
+  errorText: string = ""
 
   private userName: string = "";
 
