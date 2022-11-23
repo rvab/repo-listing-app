@@ -64,7 +64,7 @@ export class AppComponent {
       this.resetPreviousData()
       return
     }
-
+ 
     this.userName   = userName
     this.totalRepos = resp['public_repos'] > 100 ? 100 : resp['public_repos']
 
