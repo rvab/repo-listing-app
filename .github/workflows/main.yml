@@ -1,6 +1,5 @@
 name: Run ESLint on your changes only
-on:
-  pull_request:
+on: push
 jobs:
   build:
     runs-on: ubuntu-latest
