@@ -29,7 +29,7 @@ export class AppComponent {
       this.userInfo = null;
       this.repoLists = null;
       this.totalRepos = 0;
-      this.currentPage = 1;
+      this.currentPage = 0;
     }
   }
 
