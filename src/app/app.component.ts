@@ -57,8 +57,8 @@ export class AppComponent {
 
       if (resp['status'] === 404) {
         this.errorText  = 'User not found'
-      } else {
-        this.errorText  = resp['statusText']
+      } else { 
+        this.errorText  = resp['statusText'] 
       }
       this.showSkeleton = false
       this.resetPreviousData()
