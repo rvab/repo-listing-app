@@ -5,10 +5,5 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
-      - name: Install modules
-        run: npm install
-      - name: Fetch the base branch, so we can use `git diff`
-        run: git fetch origin ${{ github.event.pull_request.base.ref }}:${{ github.event.pull_request.base.ref }}
-      - name: Run ESLint on your changes only
-        run: npx --no-install eslint --config .eslintrc.json --ext .js,.jsx,.ts,.tsx .
+      - name: ESlint Runner Action
+        uses: tinovyatkin/action-eslint@v1
