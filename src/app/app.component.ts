@@ -9,7 +9,7 @@ import { RepoListParams } from "./components/repo-list/repo-list.component";
   styleUrls: ["./app.component.scss"],
 })
 export class AppComponent {
-  userInfo: UserDetailsParams
+  userInfo: UserDetailsParams;
   repoLists: RepoListParams[]
   totalRepos: number 
   currentPage: number
