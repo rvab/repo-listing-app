@@ -10,14 +10,20 @@ import { RepoListParams } from "./components/repo-list/repo-list.component";
 })
 export class AppComponent {
   userInfo: UserDetailsParams;
-  repoLists: RepoListParams[]
-  totalRepos: number 
-  currentPage: number
-  showSkeleton: boolean = false
-  direction: string = "desc"    
-  errorText: string = ""  
 
-  private userName: string = ""
+  repoLists: RepoListParams[];
+
+  totalRepos: number;
+
+  currentPage: number;
+
+  showSkeleton: boolean = false;
+
+  direction: string = "desc";
+
+  errorText: string = "" ;
+
+  private userName: string = "";
 
   constructor(private repoListingService: RepoListingService) {}
 
