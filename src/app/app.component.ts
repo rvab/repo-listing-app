@@ -23,7 +23,7 @@ export class AppComponent {
 
   errorText: string = "" ;
 
-  private userName: string = "";
+  private userName: string = ""
 
   constructor(private repoListingService: RepoListingService) {}
 
