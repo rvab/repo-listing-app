@@ -13,7 +13,7 @@ export class AppComponent {
   repoLists: RepoListParams[]
   totalRepos: number 
   currentPage: number
-  showSkeleton: boolean = false;
+  showSkeleton: boolean = false
   direction: string = "desc"    
   errorText: string = ""  
 
