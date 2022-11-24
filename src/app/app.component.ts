@@ -11,8 +11,8 @@ import { RepoListParams } from "./components/repo-list/repo-list.component";
 export class AppComponent {
   userInfo: UserDetailsParams;
   repoLists: RepoListParams[];
-  totalRepos: number;
-  currentPage: number;
+  totalRepos: number
+  currentPage: number
   showSkeleton: boolean = false;
   direction: string = "desc"    
   errorText: string = ""  
