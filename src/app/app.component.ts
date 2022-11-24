@@ -17,7 +17,7 @@ export class AppComponent {
   direction: string = "desc"    
   errorText: string = ""  
 
-  private userName: string = "";
+  private userName: string = ""
 
   constructor(private repoListingService: RepoListingService) {}
 
