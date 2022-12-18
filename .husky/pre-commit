@@ -8,14 +8,6 @@ fi
 
 PASS=true
 
-# Prettify all selected files
-echo "\nprettifying files\n"
-echo "$STAGED_FILES" | xargs ./node_modules/.bin/prettier --ignore-unknown --write
-
-# Add back the modified/prettified files to staging
-echo "$STAGED_FILES" | xargs git add
-echo "\nprettifying complete"
-
 echo "\nValidating Typescript:\n"
 
 # Check for eslint

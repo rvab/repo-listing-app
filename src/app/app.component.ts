@@ -10,12 +10,18 @@ import { RepoListParams } from "./components/repo-list/repo-list.component";
 })
 export class AppComponent {
   userInfo: UserDetailsParams;
+
   repoLists: RepoListParams[];
+
   totalRepos: number;
+
   currentPage: number;
+
   showSkeleton: boolean = false;
+
   direction: string = "desc";
-  errorText: string = "";
+
+  errorText: string = "" ;
 
   private userName: string = "";
 
@@ -29,7 +35,7 @@ export class AppComponent {
       this.userInfo = null;
       this.repoLists = null;
       this.totalRepos = 0;
-      this.currentPage = 1;
+      this.currentPage = 10;
     }
   }
 
