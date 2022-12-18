@@ -1,4 +1,4 @@
-name: Cache node_modules
+name: Cache node modules
 on:
   push:
     branches: master
