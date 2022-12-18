@@ -35,7 +35,7 @@ export class AppComponent {
       this.userInfo = null;
       this.repoLists = null;
       this.totalRepos = 0;
-      this.currentPage = 0;
+      this.currentPage = 10;
     }
   }
 
