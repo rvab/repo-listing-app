@@ -23,7 +23,7 @@ export class AppComponent {
 
   errorText: string = "" ;
 
-  private userName: string = ""
+  private userName: string = "";
 
   constructor(private repoListingService: RepoListingService) {}
 
@@ -34,8 +34,8 @@ export class AppComponent {
     if (this.userInfo) {
       this.userInfo = null;
       this.repoLists = null;
-      this.totalRepos = 0;    
-      this.currentPage = 0
+      this.totalRepos = 0;
+      this.currentPage = 0;
     }
   }
 
