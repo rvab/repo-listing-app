@@ -13,7 +13,7 @@ jobs:
         id: node-cache
         with:
           path: '**/node_modules'
-      name: Install modules
+      - name: Install modules
         if: ${{ steps.node-cache.outputs.cache-hit != 'true' }}
         run: npm ci
       - name: Fetch the base branch, so we can use `git diff`
