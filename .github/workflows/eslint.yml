@@ -15,6 +15,5 @@ jobs:
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           reporter: github-pr-review # Change reporter.
-          filter_mode: 'diff_context'
           eslint_flags: '**/*.js'
           fail_on_error: true
