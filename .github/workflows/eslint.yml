@@ -16,5 +16,4 @@ jobs:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           reporter: github-pr-review # Change reporter.
           workdir: 'src/'
-          eslint_flags: '--ext .ts'
           fail_on_error: true
