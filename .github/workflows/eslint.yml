@@ -1,25 +1,17 @@
-name: Run ESLint on modified code
-on:
-  pull_request:
-    branches: master
+name: reviewdog
+on: [pull_request]
 jobs:
-  build:
-    name: eslint runner
+  eslint:
+    name: runner / eslint
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
-      - name: Pick Cached node modules
-        uses: actions/cache@v3
-        id: node-cache
+      - uses: actions/setup-node@v3
         with:
-          path: '**/node_modules'
-          key: node-modules-${{ hashFiles('**/package-lock.json') }}
-      - name: Install modules
-        if: ${{ steps.node-cache.outputs.cache-hit != 'true' }}
-        run: npm ci
-      - name: Fetch the base branch, so we can use `git diff`
-        run: git fetch origin ${{ github.event.pull_request.base.ref }}:${{ github.event.pull_request.base.ref }}
-      - name: Run ESLint on modified code
-        env:
-          ESLINT_PLUGIN_DIFF_COMMIT: ${{ github.event.pull_request.base.ref }}
-        run: npx --no-install eslint --ext .js,.ts .
+          node-version: '16'
+      - run: npm install
+      - uses: reviewdog/action-eslint@v1
+        with:
+          reporter: github-pr-review
+          filter_mode: 'diff_context'
+          fail_on_error: true
