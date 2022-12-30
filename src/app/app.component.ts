@@ -32,8 +32,8 @@ export class AppComponent {
   =====================================================================*/
   private resetPreviousData() {
     if (this.userInfo) {
-      this.userInfo = null;
-      this.repoLists = null;
+      this.userInfo = null
+      this.repoLists = null
       this.totalRepos = 0
       this.currentPage = 0 
     }
