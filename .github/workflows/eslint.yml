@@ -1,7 +1,5 @@
 name: reviewdog
-on:
-  pull_request:
-    branches: master
+on: [pull_request]
 jobs:
   eslint:
     name: runner / eslint
@@ -10,10 +8,8 @@ jobs:
       contents: read
       pull-requests: write 
     steps:
-      - uses: actions/checkout@v3
-      - name: Install eslint
-        run: npm install eslint -D
-      - uses: reviewdog/action-eslint@v1.16.1
+      - uses: actions/checkout@v2
+      - uses: reviewdog/action-eslint@v1
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           reporter: github-pr-review # Change reporter.
