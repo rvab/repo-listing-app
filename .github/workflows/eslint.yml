@@ -11,6 +11,8 @@ jobs:
       pull-requests: write 
     steps:
       - uses: actions/checkout@v3
+      - name: Install eslint
+        run: npm install eslint -D
       - uses: reviewdog/action-eslint@v1.16.1
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
