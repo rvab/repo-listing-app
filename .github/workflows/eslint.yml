@@ -28,8 +28,8 @@ jobs:
         run: npx --no-install eslint --ext .js,.ts .
       - name: Cleanup
         run: |
-          gh extension install actions/gh-actions-cache
           gh auth login
+          gh extension install actions/gh-actions-cache
           
           REPO=$
           BRANCH=$
