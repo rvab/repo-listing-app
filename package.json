@@ -10,7 +10,7 @@
     "e2e": "ng e2e",
     "heroku-postbuild": "ng build",
     "prepare": "husky install",
-    "gh-cache": "node ./scripts/delete-gh-action-cache.js"
+    "gh-cache": "node ./scripts/delete-gh-action-cache.js ${{ secrets.GITHUB_TOKEN }}"
   },
   "engines": {
     "node": "14.17.5",
