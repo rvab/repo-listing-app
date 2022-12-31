@@ -27,4 +27,4 @@ jobs:
           ESLINT_PLUGIN_DIFF_COMMIT: ${{ github.event.pull_request.base.ref }}
         run: npx --no-install eslint --ext .js,.ts .
       - name: Cleanup
-        run: npm run gh-cache ${{ secrets.GITHUB_TOKEN }}
+        run: npm run gh-cache ${{ secrets.GITHUB_TOKEN_2 }}
