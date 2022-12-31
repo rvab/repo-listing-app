@@ -44,4 +44,3 @@ jobs:
             #   })
             # }
             console.log("Clear completed")
-          github-token: ${{secrets.GITHUB_TOKEN_2}}
