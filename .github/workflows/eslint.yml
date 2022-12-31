@@ -1,18 +1,16 @@
 name: reviewdog
 on: [pull_request]
 jobs:
-  reviewdog:
-    name: reviewdog
+  eslint:
+    name: runner / eslint
     runs-on: ubuntu-latest
     steps:
-      # ...
-      - uses: reviewdog/action-setup@v1
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v2
         with:
-          reviewdog_version: latest # Optional. [latest,nightly,v.X.Y.Z]
-      - name: Run reviewdog
-        env:
-          REVIEWDOG_GITHUB_API_TOKEN: ${{ secrets.GITHUB_TOKEN_1 }}
-        run: |
-          reviewdog -reporter=github-pr-check -runners=golint,govet
-          # or
-          reviewdog -reporter=github-pr-review -runners=golint,govet
+          node-version: '14'
+      - run: yarn install
+      - uses: reviewdog/action-eslint@v1
+        with:
+          reporter: github-check
+          eslint_flags: 'src/'
