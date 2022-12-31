@@ -29,6 +29,7 @@ jobs:
       - name: Cleanup
         run: |
           gh extension install actions/gh-actions-cache
+          gh auth login
           
           REPO=$
           BRANCH=$
