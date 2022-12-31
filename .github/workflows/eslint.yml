@@ -34,8 +34,10 @@ jobs:
         with:
           script: |
             console.log("About to clear")
+            const { Octokit } = require("@octokit/rest");
+
             const octokit = new Octokit({
-              auth: ${{ secrets.GITHUB_TOKEN_1 }}
+              auth: process.env.GITHUB_TOKEN_1
             })
             const caches = await octokit.rest.actions.getActionsCacheList({
               owner: context.repo.owner,
