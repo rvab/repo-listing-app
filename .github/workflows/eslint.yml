@@ -12,14 +12,8 @@ jobs:
         uses: actions/setup-node@v3
         with:
           node-version: 16
-      - name: Pick Cached node modules
-        uses: actions/cache@v3
-        id: node-cache
-        with:
-          path: '**/node_modules'
-          key: node-modules-${{ hashFiles('**/package-lock.json') }}
+          cache: 'npm'
       - name: Install modules
-        if: ${{ steps.node-cache.outputs.cache-hit != 'true' }}
         run: npm ci
       - name: Fetch the base branch, so we can use `git diff`
         run: git fetch origin ${{ github.event.pull_request.base.ref }}:${{ github.event.pull_request.base.ref }}
@@ -27,20 +21,3 @@ jobs:
         env:
           ESLINT_PLUGIN_DIFF_COMMIT: ${{ github.event.pull_request.base.ref }}
         run: npx --no-install eslint --ext .js,.ts .
-      - uses: actions/github-script@v6
-        with:
-          script: |
-            console.log("About to clear", context.repo.owner, context.repo.repo)
-            const caches = await github.rest.actions.getActionsCacheList({
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-            })
-            for (const cache of caches.data.actions_caches) {
-              console.log(cache)
-              github.rest.actions.deleteActionsCacheById({
-                owner: context.repo.owner,
-                repo: context.repo.repo,
-                cache_id: cache.id,
-              })
-            }
-            console.log("Clear completed")
