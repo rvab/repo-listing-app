@@ -2,8 +2,6 @@ name: Run ESLint on modified code
 on:
   pull_request:
     branches: master
-env:
-  GH_TOKEN: ${{ secrets.GITHUB_TOKEN_1 }}
 jobs:
   build:
     name: eslint runner
@@ -32,7 +30,7 @@ jobs:
       - name: Delete node_modules
         uses: actions/github-script@v6
         with:
-          github-token: ${{ secrets.GITHUB_TOKEN_1 }}
+          github-token: ${{ secrets.REVIEWDOG_GITHUB_API_TOKEN }}
           script: |
             console.log("About to clear")
             const caches = await github.rest.actions.getActionsCacheList({
