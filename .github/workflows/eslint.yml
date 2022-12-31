@@ -27,23 +27,4 @@ jobs:
           ESLINT_PLUGIN_DIFF_COMMIT: ${{ github.event.pull_request.base.ref }}
         run: npx --no-install eslint --ext .js,.ts .
       - name: Cleanup
-        run: |
-          gh auth login
-          gh extension install actions/gh-actions-cache
-          
-          REPO=$
-          BRANCH=$
-
-          echo "Fetching list of cache key"
-          cacheKeysForPR=$(gh actions-cache list -R $REPO -B $BRANCH | cut -f 1 )
-
-          ## Setting this to not fail the workflow while deleting cache keys. 
-          set +e
-          echo "Deleting caches..."
-          for cacheKey in $cacheKeysForPR
-          do
-              gh actions-cache delete $cacheKey -R $REPO -B $BRANCH --confirm
-          done
-          echo "Done"
-        env:
-          GH_TOKEN: $
+        run: npm run gh-cache
