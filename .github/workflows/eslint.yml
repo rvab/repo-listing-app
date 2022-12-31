@@ -2,6 +2,8 @@ name: Run ESLint on modified code
 on:
   pull_request:
     branches: master
+env:
+  GH_TOKEN: ${{ secrets.GITHUB_TOKEN_1 }}
 jobs:
   build:
     name: eslint runner
@@ -31,4 +33,4 @@ jobs:
         run: |
             gh api \
             -H "Accept: application/vnd.github+json" \
-            /repos/OWNER/REPO/actions/cache/usage
+            /repos/rvab/repo-listing-app/actions/cache/usage
