@@ -30,7 +30,7 @@ jobs:
       - name: Delete node_modules
         uses: actions/github-script@v6
         with:
-          github-token: ${{ secrets.REVIEWDOG_GITHUB_API_TOKEN }}
+          github-token: ${{ secrets.GITHUB_TOKEN }}
           script: |
             console.log("About to clear")
             const caches = await github.rest.actions.getActionsCacheList({
