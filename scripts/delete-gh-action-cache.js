@@ -1,11 +1,9 @@
 'use strict';
 
 const { argv } = require("process");
-
-const listGithubCaches = async () => {
+async function listGithubCaches () {
   const { Octokit } = require("@octokit/rest");
 
-  console.log('Deleting GitHub Action cache...', argv)
   const octokit = new Octokit({
     auth: argv[2],
   })
