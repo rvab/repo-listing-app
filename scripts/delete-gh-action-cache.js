@@ -7,7 +7,7 @@ const listGithubCaches = async () => {
 
   console.log('Deleting GitHub Action cache...', argv)
   const octokit = new Octokit({
-    auth: process.env.GITHUB_TOKEN
+    auth: argv[2],
   })
   
   const result = await octokit.request('GET /repos/rvab/repo-listing-app/actions/caches')
