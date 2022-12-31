@@ -5,7 +5,7 @@ const { argv } = require("process");
 const listGithubCaches = async () => {
   const { Octokit } = require("@octokit/rest");
 
-  console.log('Deleting GitHub Action cache...', process.env)
+  console.log('Deleting GitHub Action cache...', argv)
   const octokit = new Octokit({
     auth: process.env.GITHUB_TOKEN
   })
