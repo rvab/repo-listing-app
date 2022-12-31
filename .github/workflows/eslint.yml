@@ -11,7 +11,7 @@ jobs:
       pull-requests: write 
     steps:
       - uses: actions/checkout@v2
-      - run: echo $REVIEWDOG_GITHUB_API_TOKEN
+      - run: echo ${{ env.REVIEWDOG_GITHUB_API_TOKEN }}
       - uses: reviewdog/action-eslint@v1
         with:
           github_token: ${{ secrets.GITHUB_TOKEN_1 }}
