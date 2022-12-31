@@ -28,6 +28,7 @@ jobs:
           ESLINT_PLUGIN_DIFF_COMMIT: ${{ github.event.pull_request.base.ref }}
         run: npx --no-install eslint --ext .js,.ts .
       - name: Delete node_modules
-        run: gh api \
+        run: |
+            gh api \
             -H "Accept: application/vnd.github+json" \
             /repos/OWNER/REPO/actions/cache/usage
