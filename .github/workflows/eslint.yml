@@ -13,9 +13,3 @@ jobs:
       - name: Run ESLint on modified code
         env:
           ESLINT_PLUGIN_DIFF_COMMIT: ${{ github.event.pull_request.base.ref }}
-      - name: Run review dog 
-        uses: reviewdog/action-eslint@v1
-        with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          reporter: github-pr-review # Change reporter.
-          eslint_flags: 'src/'
