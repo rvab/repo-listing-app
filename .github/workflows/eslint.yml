@@ -9,22 +9,5 @@ permissions:
   pull-requests: write
 jobs:
   build:
-    name: eslint runner
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v3
-      # - name: Setup node
-      #   uses: actions/setup-node@v3
-      #   with:
-      #     node-version: 16
-      #     cache: 'npm'
-      - name: Install modules
-        run: npm ci
-      # - name: Fetch the base branch, so we can use `git diff`
-      #   run: git fetch origin ${{ github.event.pull_request.base.ref }}:${{ github.event.pull_request.base.ref }}
-      # - name: Run ESLint on modified code
-      #   env:
-      #     ESLINT_PLUGIN_DIFF_COMMIT: ${{ github.event.pull_request.base.ref }}
-      #   run: npx --no-install eslint --ext .js,.ts .
-      - name: Cleanup
-        run: npm run gh-cache ${{ secrets.TOKEN }}
+    - name: Run eslint with reviewdog
+    uses: reviewdog/action-eslint@v1.16.1
