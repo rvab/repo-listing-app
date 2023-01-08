@@ -9,5 +9,8 @@ permissions:
   pull-requests: write
 jobs:
   build:
-    name: Run eslint with reviewdog
-    uses: reviewdog/action-eslint@v1.16.1
+    name: eslint runner
+    runs-on: ubuntu-latest
+    steps:
+      - name: Run eslint with reviewdog
+      uses: reviewdog/action-eslint@v1.16.1
