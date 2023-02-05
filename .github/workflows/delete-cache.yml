@@ -2,7 +2,8 @@ name: Delete Unused Caches
 on:
   push:
     branches: master
-
+permissions:
+  actions: write
 jobs:
   delete:
     runs-on: ubuntu-latest
