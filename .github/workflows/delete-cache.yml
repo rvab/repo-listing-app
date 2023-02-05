@@ -1,6 +1,6 @@
 name: Delete Unused Caches
 on:
-  push:
+  pull:
     branches: master
 
 jobs:
