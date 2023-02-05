@@ -7,8 +7,21 @@ jobs:
   delete:
     runs-on: ubuntu-latest
     steps:
-      - uses: snnaplab/delete-branch-cache-action@v1
+      - name: Clear cache
+        uses: actions/github-script@v6
         with:
-          key: node-modules-${{ hashFiles('**/package-lock.json') }}
-          # Specify explicitly because the ref at the time of merging will be a branch name such as 'main', 'develop'
-          ref: refs/pull/${{ github.event.number }}/merge
+          script: |
+            console.log("About to clear")
+            const caches = await github.rest.actions.getActionsCacheList({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+            })
+            for (const cache of caches.data.actions_caches) {
+              console.log(cache)
+              github.rest.actions.deleteActionsCacheById({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                cache_id: cache.id,
+              })
+            }
+            console.log("Clear completed")
