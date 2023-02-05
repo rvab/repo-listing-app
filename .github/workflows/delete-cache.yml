@@ -2,6 +2,8 @@ name: Get list of cache
 on:
   pull_request:
     branches: master
+permissions:
+  actions: read|write|
 jobs:
   build:
     name: eslint runner
