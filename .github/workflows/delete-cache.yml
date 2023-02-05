@@ -4,7 +4,8 @@ on:
     branches: master
 
 jobs:
-  delete:
+  build:
+    name: eslint runner
     runs-on: ubuntu-latest
     steps:
       - name: Clear cache
