@@ -12,4 +12,4 @@ jobs:
         with:
           key: node-modules-${{ hashFiles('**/package-lock.json') }}
           # Specify explicitly because the ref at the time of merging will be a branch name such as 'main', 'develop'
-          ref: refs/pull/${{ github.event.number }}/merge
+          ref: refs/pull/${{ github.event.pull_request.base.ref }}/merge
