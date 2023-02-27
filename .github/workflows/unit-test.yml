@@ -8,7 +8,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Echo github.event
-        run: echo "head commit ${{ github.event }}"
+        run: echo "head commit ${{ steps.files.outputs.all }}"
       - name: Checkout code
         uses: actions/checkout@v3
       - name: Cache node modules
