@@ -1,0 +1,35 @@
+name: Run unit test only on app-v2 folder changes
+on:
+  pull_request:
+    branches: master
+    paths:
+      - 'src/**.{html,ts}'
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Echo github.event
+        run: echo ${{ github.event.head_commit.modified }} 
+      - name: Checkout code
+        uses: actions/checkout@v3
+      - name: Cache node modules
+        uses: actions/cache@v3
+        id: node-cache
+        with:
+          path: '**/node_modules'
+          key: node-modules-${{ hashFiles('**/package-lock.json') }}
+      - if: ${{ steps.node-cache.outputs.cache-hit != 'true' }}
+        name: Install modules
+        run: npm ci --save-dev
+      - name: Run unit test for accounts app
+        if: ${{ startsWith(github.event.head_commit.modified, 'src') }}
+        run: |
+          cd app-v2
+          npm run accounts-test
+      - name: Unit Test Coverage
+        uses: fylein/comment-test-coverage@master
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          path: app-v2/coverage/apps/accounts/coverage-final.json
+          title: Accounts Unit Test Coverage
