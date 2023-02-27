@@ -22,7 +22,7 @@ jobs:
         run: |
           echo "${{steps.changed-files.outputs.all_changed_files}}"
           echo " has file changed ${{ contains(steps.changed-files.outputs.all_changed_files, 'src') }}"
-          echo " ${{ github.event.head_commit.modified }}"
+          echo " modified files ${{ github.event.head_commit.modified }}"
       - name: Cache node modules
         uses: actions/cache@v3
         id: node-cache
