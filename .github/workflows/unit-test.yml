@@ -21,7 +21,7 @@ jobs:
       - name: List all changed files
         run: |
           echo "${{steps.changed-files.outputs.all_changed_files}}"
-          echo " has file changed ${{ startsWith(steps.changed-files.outputs.all_changed_files, 'src') }}"
+          echo " has file changed ${{ contains(steps.changed-files.outputs.all_changed_files, 'src') }}"
       - name: Cache node modules
         uses: actions/cache@v3
         id: node-cache
