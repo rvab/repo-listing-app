@@ -4,8 +4,7 @@ on:
     type:
     branches: master
     paths: 
-    - 'src/**/*.html'
-    - 'src/**/*.ts'
+    - 'src/**/*.{html,ts}'
 
 jobs:
   build:
