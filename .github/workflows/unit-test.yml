@@ -4,8 +4,8 @@ on:
     type:
     branches: master
     paths: 
-    - 'src/**/*.{html,ts}'
-
+    - 'src/**/*.{html,md}'
+    
 jobs:
   build:
     runs-on: ubuntu-latest
