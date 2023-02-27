@@ -11,7 +11,7 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v3
       - name: Changed Files
-        uses: tj-actions/changed-files@v3
+        uses: tj-actions/changed-files@v35.6.0
       - name: List all changed files
         run: |
           for file in ${{ steps.changed-files.outputs.all_changed_files }}; do
