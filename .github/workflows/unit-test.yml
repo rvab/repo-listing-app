@@ -3,7 +3,7 @@ on:
   pull_request:
     type:
     branches: master
-    paths: 'src/**/*.html'
+    paths: 'src/**/*.{html,ts}'
 
 jobs:
   build:
