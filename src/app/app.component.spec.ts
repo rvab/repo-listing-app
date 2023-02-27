@@ -5,7 +5,7 @@ import { RepoListingService } from './services/repo-listing.service';
 describe('AppComponent', () => {
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      providers: [RepoListingService],
+      providers: [],
       declarations: [
         AppComponent,
       ],
