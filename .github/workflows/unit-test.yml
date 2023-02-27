@@ -8,7 +8,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Echo github.event
-        run: echo "head commit ${{ github.event.head_commit.modified }}"
+        run: echo "head commit ${{ github.event }}"
       - name: Checkout code
         uses: actions/checkout@v3
       - name: Cache node modules
@@ -25,9 +25,3 @@ jobs:
         run: |
           cd app-v2
           npm run accounts-test
-      - name: Unit Test Coverage
-        uses: fylein/comment-test-coverage@master
-        with:
-          token: ${{ secrets.GITHUB_TOKEN }}
-          path: app-v2/coverage/apps/accounts/coverage-final.json
-          title: Accounts Unit Test Coverage
