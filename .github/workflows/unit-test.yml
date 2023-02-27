@@ -2,7 +2,6 @@ name: Run unit test only on app-v2 folder changes
 on:
   pull_request:
     branches: master
-    paths: 'src/**.{html,ts}'
 
 jobs:
   build:
