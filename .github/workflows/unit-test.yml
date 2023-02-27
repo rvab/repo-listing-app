@@ -16,11 +16,12 @@ jobs:
       - name: Get changed files
         id: changed-files
         uses: tj-actions/changed-files@v35
+        with:
+        separator: ","
 
       - name: List all changed files
         run: |
-          for file in ${{ steps.changed-files.outputs.all_changed_files }}; do
-            echo "$file was changed"
+            echo "$steps.changed-files.outputs.all_changed_files"
           done
       - name: Cache node modules
         uses: actions/cache@v3
@@ -32,7 +33,7 @@ jobs:
         name: Install modules
         run: npm ci --save-dev
       - name: Run unit test for accounts app
-        if: ${{ startsWith(github.event.head_commit.modified, 'src') }}
+        if: ${{ startsWith(steps.changed-files.outputs.all_changed_files, 'src') }}
         run: |
           cd app-v2
           npm run accounts-test
