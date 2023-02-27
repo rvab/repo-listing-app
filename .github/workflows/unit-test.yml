@@ -1,0 +1,38 @@
+name: Run unit test only on app-v2 folder changes
+on:
+  pull_request:
+    type:
+    branches: master
+    paths: 
+    - 'src/**/*.{html,ts}'
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+     
+      - uses: actions/checkout@v3
+      # Example 1
+      - name: Get all changed files and use a comma separator in the output
+        id: changed-files
+        uses: tj-actions/changed-files@v35
+        with:
+          separator: ','
+      - name: List all changed files
+        run: |
+          echo "${{steps.changed-files.outputs.all_changed_files}}"
+          echo " has file changed ${{ contains(steps.changed-files.outputs.all_changed_files, 'src') }}"
+          echo " modified files ${{ github.event.head_commit }}"
+      - name: Cache node modules
+        uses: actions/cache@v3
+        id: node-cache
+        with:
+          path: '**/node_modules'
+          key: node-modules-${{ hashFiles('**/package-lock.json') }}
+      - if: ${{ steps.node-cache.outputs.cache-hit != 'true' }}
+        name: Install modules
+        run: npm ci --save-dev
+      - name: Run unit test for accounts app
+        if: ${{ contains(steps.changed-files.outputs.all_changed_files, 'src') }}
+        run: |
+          npm run test
