@@ -18,10 +18,10 @@ jobs:
         uses: tj-actions/changed-files@v35
         with:
           separator: ','
-      - name: List all changed files
-        run: |
-            echo "$steps.changed-files.outputs.all_changed_files"
-          done
+      # - name: List all changed files
+      #   run: |
+      #       echo "$steps.changed-files.outputs.all_changed_files"
+      #     done
       - name: Cache node modules
         uses: actions/cache@v3
         id: node-cache
