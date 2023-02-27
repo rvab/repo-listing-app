@@ -7,8 +7,13 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - name: Echo github.event
-        run: echo "head commit ${{ steps.files.outputs.all }}"
+      - name: Changed Files
+        uses: tj-actions/changed-files@v35.6.0
+      - name: List all changed files
+        run: |
+          for file in ${{ steps.changed-files.outputs.all_changed_files }}; do
+            echo "$file was changed"
+          done
       - name: Checkout code
         uses: actions/checkout@v3
       - name: Cache node modules
