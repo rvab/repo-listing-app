@@ -2,13 +2,14 @@ name: Run unit test only on app-v2 folder changes
 on:
   pull_request:
     branches: master
+    paths: 'src/**.{html,ts}'
 
 jobs:
   build:
     runs-on: ubuntu-latest
     steps:
       - name: Echo github.event
-        run: echo ${{ github.event.head_commit.modified }} 
+        run: echo ${{ github.event.head_commit }} 
       - name: Checkout code
         uses: actions/checkout@v3
       - name: Cache node modules
