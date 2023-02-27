@@ -33,6 +33,6 @@ jobs:
         name: Install modules
         run: npm ci --save-dev
       - name: Run unit test for accounts app
-        if: ${{ contains(steps.changed-files.outputs.all_changed_files, 'app.component.html') }}
+        if: ${{ contains(steps.changed-files.outputs.all_changed_files, 'src') }}
         run: |
           npm run test
