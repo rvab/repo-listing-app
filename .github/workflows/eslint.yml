@@ -23,3 +23,6 @@ jobs:
         env:
           ESLINT_PLUGIN_DIFF_COMMIT: ${{ github.event.pull_request.base.ref }}
         run: npx --no-install eslint --ext .js,.ts .
+      - name: Block merging to master if the job fails
+        if: ${{ failure() }}
+        run: ESLint job failed
