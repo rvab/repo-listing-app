@@ -6,7 +6,6 @@ on:
 permissions: 
   pull-requests: write
   contents: read
-  actions: write
 jobs:
   build:
     name: eslint runner
@@ -34,7 +33,8 @@ jobs:
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           script: |
-            await github.rest.repos.createCommitStatus({
+            const octokit = github.getOctokit(process.env.GITHUB_TOKEN);
+            await octokit.repos.createCommitStatus({
               owner: context.repo.owner,
               repo: context.repo.repo,
               sha: context.sha,
