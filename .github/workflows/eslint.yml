@@ -38,8 +38,8 @@ jobs:
               owner: context.repo.owner,
               repo: context.repo.repo,
               sha: context.sha,
-              state: 'pending',
+              state: 'error',
               description: 'Workflow in progress',
               context: 'workflow/update-commit-status'
             });
-            console.log({result})
+            console.log({data: result.data})
