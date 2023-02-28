@@ -4,7 +4,8 @@ on:
     branches: master
 
 permissions: 
-  pull-requests: write  
+  pull-requests: write
+  contents: read
 jobs:
   build:
     name: eslint runner
@@ -32,8 +33,6 @@ jobs:
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           script: |
-            const github = require('@actions/github');
-            const context = github.context;
             const octokit = new github.GitHub(process.env.GITHUB_TOKEN);
             await octokit.repos.createCommitStatus({
               owner: context.repo.owner,
