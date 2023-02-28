@@ -34,10 +34,10 @@ jobs:
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           script: |
-            const branch = context.payload.ref.replace('refs/heads/', '');
+            console.log({github, context})
             const result =  await github.rest.repos.getBranchProtection({
               owner: context.repo.owner,
               repo: context.repo.repo,
-              branch
+              branch: 'master'
             });
             console.log({data: result.data})
