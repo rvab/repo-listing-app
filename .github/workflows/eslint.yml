@@ -2,6 +2,11 @@ name: Run ESLint on modified code
 on:
   pull_request:
     branches: master
+
+permissions: 
+  pull-requests: write
+  contents: read
+  statuses: write
 jobs:
   build:
     name: eslint runner
@@ -25,4 +30,14 @@ jobs:
         run: npx --no-install eslint --ext .js,.ts .
       - name: Block merging to master if the job fails
         if: ${{ failure() }}
-        run: exit 1
+        uses: actions/github-script@v6
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            console.log({github, context})
+            const result =  await github.rest.repos.getBranchProtection({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              branch: 'master'
+            });
+            console.log({data: result.data})
