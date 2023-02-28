@@ -34,12 +34,10 @@ jobs:
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           script: |
-            const result =  await github.rest.repos.createCommitStatus({
+            const branch = context.payload.ref.replace('refs/heads/', '');
+            const result =  await github.rest.repos.getBranchProtection({
               owner: context.repo.owner,
               repo: context.repo.repo,
-              sha: context.sha,
-              state: 'failure',
-              description: 'Workflow in progress',
-              context: 'workflow/update-commit-status'
+              branch
             });
             console.log({data: result.data})
