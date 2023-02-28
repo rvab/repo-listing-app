@@ -34,7 +34,7 @@ jobs:
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           script: |
-            await github.rest.repos.createCommitStatus({
+            const result =  await github.rest.repos.createCommitStatus({
               owner: context.repo.owner,
               repo: context.repo.repo,
               sha: context.sha,
@@ -42,3 +42,4 @@ jobs:
               description: 'Workflow in progress',
               context: 'workflow/update-commit-status'
             });
+            console.log({result})
