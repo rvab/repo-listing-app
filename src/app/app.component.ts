@@ -22,7 +22,6 @@ export class AppComponent {
   direction: string = "desc";
 
   errorText: string = "" ;
-
   private userName: string = "";
 
   constructor(private repoListingService: RepoListingService) {}
@@ -44,6 +43,8 @@ export class AppComponent {
   =====================================================================*/
 
   async getUserInfo(userName: string) {
+    var a = 10;
+    
     if (this.showSkeleton) return;
 
     this.showSkeleton = true;
