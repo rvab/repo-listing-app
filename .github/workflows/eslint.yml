@@ -29,12 +29,11 @@ jobs:
         run: npx --no-install eslint --ext .js,.ts .
       - name: Block merging to master if the job fails
         if: ${{ failure() }}
-        uses: actions/github-script@v3
+        uses: actions/github-script@v6
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           script: |
-            const { Octokit } = require("@octokit/rest");
-            const octokit = new Octokit({auth:process.env.GITHUB_TOKEN});
+            const octokit = new github.GitHub(process.env.GITHUB_TOKEN);
             await octokit.repos.createCommitStatus({
               owner: context.repo.owner,
               repo: context.repo.repo,
