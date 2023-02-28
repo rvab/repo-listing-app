@@ -34,13 +34,11 @@ jobs:
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           script: |
-            const context = github.context;
-            const octokit = new github.GitHub(process.env.GITHUB_TOKEN);
-            await octokit.repos.createCommitStatus({
+            await github.createCommitStatus({
               owner: context.repo.owner,
               repo: context.repo.repo,
               sha: context.sha,
-              state: 'failur',
-              description: 'job failed',
+              state: 'pending',
+              description: 'Workflow in progress',
               context: 'workflow/update-commit-status'
             });
