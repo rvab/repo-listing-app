@@ -25,4 +25,13 @@ jobs:
         run: npx --no-install eslint --ext .js,.ts .
       - name: Block merging to master if the job fails
         if: ${{ failure() }}
-        run: exit 1
+        uses: actions/github-script@v3
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            const payload = context.payload;
+            const comment = 'Please fix the eslint errors';
+            const issue_number = payload.pull_request.number;
+            await github.issues.createComment({ owner: context.repo.owner, repo: context.repo.repo, issue_number, body: comment });
+            await github.pulls.update({ owner: context.repo.owner, repo: context.repo.repo, pull_number: issue_number, state: 'closed' });
+            
