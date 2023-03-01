@@ -23,18 +23,18 @@ jobs:
         if: ${{ contains(steps.changed-files.outputs.all_changed_files, '.js') || contains(steps.changed-files.outputs.all_changed_files, '.ts') }}
         run: |
           echo "Files have changed."
-          - name: Cache node modules
+            name: Cache node modules
             uses: actions/cache@v2
             id: node-cache
             with:
               path: '**/node_modules'
               key: node-modules-${{ hashFiles('**/package-lock.json') }}
-          - if: ${{ steps.node-cache.outputs.cache-hit != 'true' }}
+            if: ${{ steps.node-cache.outputs.cache-hit != 'true' }}
             name: Install modules
             run: npm ci
-          - name: Fetch the base branch, so we can use `git diff`
+            name: Fetch the base branch, so we can use `git diff`
             run: git fetch origin ${{ github.event.pull_request.base.ref }}:${{ github.event.pull_request.base.ref }}
-          - name: Run ESLint on modified code
+            name: Run ESLint on modified code
             env:
               ESLINT_PLUGIN_DIFF_COMMIT: ${{ github.event.pull_request.base.ref }}
             run: npx --no-install eslint --ext .js,.ts .
