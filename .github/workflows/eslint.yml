@@ -30,13 +30,14 @@ jobs:
             key: node-modules-${{ hashFiles('**/package-lock.json') }}
 
           # Install modules if not cached
+          name: Install modules if not cached
           run: npm ci
           if: steps.cache-node-modules.outputs.cache-hit != 'true'
 
-          # Fetch base branch for git diff
-          run: git fetch origin ${{ github.event.pull_request.base.ref }}:${{ github.event.pull_request.base.ref }}
+      - name: Fetch base branch for git diff
+        run: git fetch origin ${{ github.event.pull_request.base.ref }}:${{ github.event.pull_request.base.ref }}
 
-          # Run ESLint on modified code
-          env:
-            ESLINT_PLUGIN_DIFF_COMMIT: ${{ github.event.pull_request.base.ref }}
-          run: npx eslint --ext .js,.ts .
+      - name: Run ESLint on modified code
+        env:
+          ESLINT_PLUGIN_DIFF_COMMIT: ${{ github.event.pull_request.base.ref }}
+        run: npx eslint --ext .js,.ts .
