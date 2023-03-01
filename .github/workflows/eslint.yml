@@ -26,20 +26,20 @@ jobs:
       #     script: |
       #       console.log({steps})
       - name: Cache node modules
-        if: ${{ steps.build.outputs.hasFilesChanged }}
+        if: ${{ steps.fileChangeStatus.outputs.changed }}
         uses: actions/cache@v3
         id: node-cache
         with:
           path: '**/node_modules'
           key: node-modules-${{ hashFiles('**/package-lock.json') }}
-      - if: ${{ steps.node-cache.outputs.cache-hit != 'true' && steps.build.outputs.hasFilesChanged }}
+      - if: ${{ steps.node-cache.outputs.cache-hit != 'true' && steps.fileChangeStatus.outputs.changed }}
         name: Install modules
         run: npm ci
       - name: Fetch the base branch, so we can use `git diff`
-        if: ${{ steps.build.outputs.hasFilesChanged }}
+        if: ${{ steps.fileChangeStatus.outputs.changed }}
         run: git fetch origin ${{ github.event.pull_request.base.ref }}:${{ github.event.pull_request.base.ref }}
       - name: Run ESLint on modified code
-        if: ${{ steps.build.outputs.hasFilesChanged }}
+        if: ${{ steps.fileChangeStatus.outputs.changed }}
         env:
           ESLINT_PLUGIN_DIFF_COMMIT: ${{ github.event.pull_request.base.ref }}
         run: npx --no-install eslint --ext .js,.ts .
