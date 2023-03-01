@@ -15,15 +15,16 @@ jobs:
         with:
           separator: ','
       - name: Set Output Variable
-        run: echo "hasFilesChanged=${{contains(steps.changed-files.outputs.all_changed_files, '.ts') ||  contains(steps.changed-files.outputs.all_changed_files, '.js')}}" >> "$GITHUB_OUTPUT"
+        id: fileChangeStatus
+        run: echo "changed=${{contains(steps.changed-files.outputs.all_changed_files, '.ts') ||  contains(steps.changed-files.outputs.all_changed_files, '.js')}}" >> "$GITHUB_OUTPUT"
       - name: Echo output variable
-        run: echo "Output variable value -> ${{ steps.build.outputs.hasFilesChanged }}"
+        run: echo "Output variable value -> ${{ steps.fileChangeStatus.outputs.changed }}"
         # run: echo "::set-output name=hasFilesChanged::${{contains(steps.changed-files.outputs.all_changed_files, '.ts') ||  contains(steps.changed-files.outputs.all_changed_files, '.js')}}"
-      - name: Check steps values
-        uses: actions/github-script@v6
-        with:
-          script: |
-            console.log({steps})
+      # - name: Check steps values
+      #   uses: actions/github-script@v6
+      #   with:
+      #     script: |
+      #       console.log({steps})
       - name: Cache node modules
         if: ${{ steps.build.outputs.hasFilesChanged }}
         uses: actions/cache@v3
