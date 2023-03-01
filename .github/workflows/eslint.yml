@@ -16,6 +16,7 @@ jobs:
           separator: ','
       - name: Set Output Variable
         run: echo "{hasFilesChanged}={${{contains(steps.changed-files.outputs.all_changed_files, '.ts') ||  contains(steps.changed-files.outputs.all_changed_files, '.js')}}}" >> "$GITHUB_OUTPUT"
+        run: echo "${{ steps.build.outputs.hasFilesChanged }}"
         # run: echo "::set-output name=hasFilesChanged::${{contains(steps.changed-files.outputs.all_changed_files, '.ts') ||  contains(steps.changed-files.outputs.all_changed_files, '.js')}}"
       - name: Cache node modules
         if: ${{ steps.build.outputs.hasFilesChanged }}
