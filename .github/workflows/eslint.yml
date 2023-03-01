@@ -18,10 +18,10 @@ jobs:
         uses: tj-actions/changed-files@v35.6.0
         with:
           separator: ','
-      - if: ${{ contains(steps.changed-files.outputs.all_changed_files, '.js') || contains(steps.changed-files.outputs.all_changed_files, '.ts') }}
-          name: Cache node modules
-          uses: actions/cache@v3
-          id: node-cache
-          with:
-            path: '**/node_modules'
-            key: node-modules-${{ hashFiles('**/package-lock.json') }}
+      - if: ${{ contains(steps.changed-files.outputs.all_changed_files, '.ts') }}
+        name: Cache node modules
+        uses: actions/cache@v3
+        id: node-cache
+        with:
+          path: '**/node_modules'
+          key: node-modules-${{ hashFiles('**/package-lock.json') }}
