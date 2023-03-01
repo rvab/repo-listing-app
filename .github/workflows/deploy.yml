@@ -10,4 +10,12 @@ jobs:
     - name: My Step
       env:
         MY_SECRET: ${{ secrets.NETLIFY_BUILD_HOOKS }}
-      run: echo $MY_SECRET
+    - name: My Step
+      uses: actions/github-script@v5
+      with:
+        script: |
+          const envSecret = await github.rest.actions.getEnvironmentSecrets({
+            repository_id: ${{ github.repository }},
+            environment_name: 'production'
+          })
+          console.log(envSecret)
