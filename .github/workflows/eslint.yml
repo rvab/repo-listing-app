@@ -25,12 +25,12 @@ jobs:
         with:
           path: '**/node_modules'
           key: node-modules-${{ hashFiles('**/package-lock.json') }}
-        if: ${{ steps.node-cache.outputs.cache-hit != 'true' }}
-        name: Install modules
-        run: npm ci && cd app-v2 && npm ci
-        name: Fetch the base branch, so we can use `git diff`
-        run: git fetch origin ${{ github.event.pull_request.base.ref }}:${{ github.event.pull_request.base.ref }}
-        name: Run ESLint on modified code
-        env:
-          ESLINT_PLUGIN_DIFF_COMMIT: ${{ github.event.pull_request.base.ref }}
-        run: npx --no-install eslint --ext .js,.ts .
+        - if: ${{ steps.node-cache.outputs.cache-hit != 'true' }}
+          name: Install modules
+          run: npm ci && cd app-v2 && npm ci
+          name: Fetch the base branch, so we can use `git diff`
+          run: git fetch origin ${{ github.event.pull_request.base.ref }}:${{ github.event.pull_request.base.ref }}
+          name: Run ESLint on modified code
+          env:
+            ESLINT_PLUGIN_DIFF_COMMIT: ${{ github.event.pull_request.base.ref }}
+          run: npx --no-install eslint --ext .js,.ts .
