@@ -2,8 +2,9 @@ name: Run ESLint on modified code
 on:
   pull_request:
     branches: master
+    paths:
 jobs:
-  eslint:
+  build:
     name: eslint runner
     runs-on: ubuntu-latest
     steps:
@@ -13,20 +14,19 @@ jobs:
         uses: tj-actions/changed-files@v35.6.0
         with:
           separator: ','
-        if: ${{ contains(steps.changed-files.outputs.all_changed_files, '.ts') }}
-          steps: 
-            - name: Cache node modules
-              uses: actions/cache@v3
-              id: node-cache
-              with:
-                path: '**/node_modules'
-                key: node-modules-${{ hashFiles('**/package-lock.json') }}
-            - if: ${{ steps.node-cache.outputs.cache-hit != 'true' }}
-              name: Install modules
-              run: npm ci && cd app-v2 && npm ci
-            - name: Fetch the base branch, so we can use `git diff`
-              run: git fetch origin ${{ github.event.pull_request.base.ref }}:${{ github.event.pull_request.base.ref }}
-            - name: Run ESLint on modified code
-              env:
-                ESLINT_PLUGIN_DIFF_COMMIT: ${{ github.event.pull_request.base.ref }}
-              run: npx --no-install eslint --ext .js,.ts .
+      - name: Cache node modules
+        if: ${{ contains(steps.changed-files.outputs.all_changed_files, '.ts') ||  contains(steps.changed-files.outputs.all_changed_files, '.js') }}
+        uses: actions/cache@v3
+        id: node-cache
+        with:
+          path: '**/node_modules'
+          key: node-modules-${{ hashFiles('**/package-lock.json') }}
+      - if: ${{ steps.node-cache.outputs.cache-hit != 'true' }}
+        name: Install modules
+        run: npm ci && cd app-v2 && npm ci
+      - name: Fetch the base branch, so we can use `git diff`
+        run: git fetch origin ${{ github.event.pull_request.base.ref }}:${{ github.event.pull_request.base.ref }}
+      - name: Run ESLint on modified code
+        env:
+          ESLINT_PLUGIN_DIFF_COMMIT: ${{ github.event.pull_request.base.ref }}
+        run: npx --no-install eslint --ext .js,.ts .
