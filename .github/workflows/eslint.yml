@@ -15,7 +15,7 @@ jobs:
         with:
           separator: ','
       - name: Set Output Variable
-        run: echo "{hasFilesChanged}={${{contains(steps.changed-files.outputs.all_changed_files, '.ts') ||  contains(steps.changed-files.outputs.all_changed_files, '.js')}}}" >> "$GITHUB_OUTPUT"
+        run: echo "hasFilesChanged=${{contains(steps.changed-files.outputs.all_changed_files, '.ts') ||  contains(steps.changed-files.outputs.all_changed_files, '.js')}}" >> "$GITHUB_OUTPUT"
       - name: Echo output variable
         run: echo "Output variable value -> ${{ steps.build.outputs.hasFilesChanged }}"
         # run: echo "::set-output name=hasFilesChanged::${{contains(steps.changed-files.outputs.all_changed_files, '.ts') ||  contains(steps.changed-files.outputs.all_changed_files, '.js')}}"
