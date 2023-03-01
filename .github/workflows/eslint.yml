@@ -11,7 +11,7 @@ jobs:
   eslint:
     name: Run ESLint on modified code
     runs-on: ubuntu-latest
-    if: contains(runner.job.stepIds, 'changed-files') && contains(runner.steps['changed-files'].outputs.all_changed_files, '.ts') # Only run if there are modified .ts files
+    if: contains(github.job.stepIds, 'changed-files') && contains(github.steps['changed-files'].outputs.all_changed_files, '.ts') # Only run if there are modified .ts files
     steps:
       # Step 1: Checkout the code
       - uses: actions/checkout@v3
