@@ -25,7 +25,6 @@ jobs:
     needs: files_status
     if: ${{ needs.files_status.outputs.changed == 'true' }}
     steps:
-      - uses: actions/checkout@v3
       - name: Cache node modules
         uses: actions/cache@v3
         id: node-cache
