@@ -13,7 +13,7 @@ jobs:
         uses: tj-actions/changed-files@v35.6.0
         with:
           separator: ','
-      - if: ${{ contains(steps.changed-files.outputs.all_changed_files, '.ts') }}
+        if: ${{ contains(steps.changed-files.outputs.all_changed_files, '.ts') }}
         steps: 
           - name: Cache node modules
             uses: actions/cache@v3
