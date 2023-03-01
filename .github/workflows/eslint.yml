@@ -21,14 +21,14 @@ jobs:
         with:
           path: '**/node_modules'
           key: node-modules-${{ hashFiles('**/package-lock.json') }}
-      - if: ${{ steps.node-cache.outputs.cache-hit != 'true' && success() }}
+      - if: ${{ steps.node-cache.outputs.cache-hit != 'true' && (contains(steps.changed-files.outputs.all_changed_files, '.ts') ||  contains(steps.changed-files.outputs.all_changed_files, '.js')) }}
         name: Install modules
         run: npm ci && cd app-v2 && npm ci
       - name: Fetch the base branch, so we can use `git diff`
-        if: ${{ success() }}
+        if: ${{ contains(steps.changed-files.outputs.all_changed_files, '.ts') ||  contains(steps.changed-files.outputs.all_changed_files, '.js') }}
         run: git fetch origin ${{ github.event.pull_request.base.ref }}:${{ github.event.pull_request.base.ref }}
       - name: Run ESLint on modified code
-        if: ${{ success() }}
+        if: ${{ contains(steps.changed-files.outputs.all_changed_files, '.ts') ||  contains(steps.changed-files.outputs.all_changed_files, '.js') }}
         env:
           ESLINT_PLUGIN_DIFF_COMMIT: ${{ github.event.pull_request.base.ref }}
         run: npx --no-install eslint --ext .js,.ts .
