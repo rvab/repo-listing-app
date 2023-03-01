@@ -7,6 +7,7 @@ permissions:
   pull-requests: write
   contents: read
   statuses: write
+
 jobs:
   build:
     name: eslint runner
@@ -18,10 +19,12 @@ jobs:
         uses: tj-actions/changed-files@v35.6.0
         with:
           separator: ','
-      - if: ${{ contains(steps.changed-files.outputs.all_changed_files, '.js') || contains(steps.changed-files.outputs.all_changed_files, '.ts') }}
+      - name: Check if files have changed
+        if: ${{ contains(steps.changed-files.outputs.all_changed_files, '.js') || contains(steps.changed-files.outputs.all_changed_files, '.ts') }}
         run: |
+          echo "Files have changed."
           - name: Cache node modules
-            uses: actions/cache@v3
+            uses: actions/cache@v2
             id: node-cache
             with:
               path: '**/node_modules'
