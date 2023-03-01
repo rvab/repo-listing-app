@@ -8,9 +8,6 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - name: My Step
-      env:
-        MY_SECRET: ${{ secrets.NETLIFY_BUILD_HOOKS }}
-    - name: My Step
       uses: actions/github-script@v5
       with:
         script: |
