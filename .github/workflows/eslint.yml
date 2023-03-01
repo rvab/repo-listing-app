@@ -23,7 +23,7 @@ jobs:
           key: node-modules-${{ hashFiles('**/package-lock.json') }}
       - if: ${{ steps.node-cache.outputs.cache-hit != 'true' && success() }}
         name: Install modules
-        run: npm ci && cd app-v2 && npm ci
+        run: npm ci
       - name: Fetch the base branch, so we can use `git diff`
         if: ${{ success() }}
         run: git fetch origin ${{ github.event.pull_request.base.ref }}:${{ github.event.pull_request.base.ref }}
