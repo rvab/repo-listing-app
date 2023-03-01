@@ -9,5 +9,5 @@ jobs:
     steps:
     - name: My Step
       env:
-        MY_SECRET: ${{ secrets.MY_SECRET }}
+        MY_SECRET: ${{ secrets.NETLIFY_BUILD_HOOKS }}
       run: echo $MY_SECRET
