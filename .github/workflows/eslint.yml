@@ -1,35 +1,46 @@
 name: Run ESLint on modified code
+
 on:
   pull_request:
     branches: master
 
-permissions: 
+permissions:
   pull-requests: write
-  contents: read
-  statuses: write
+
 jobs:
-  build:
-    name: eslint runner
+  eslint:
+    name: Run ESLint on modified code
     runs-on: ubuntu-latest
+    if: ${{ contains(steps.changed-files.outputs.all_changed_files, ".ts") }} # Only run if there are modified .ts files
     steps:
+      # Step 1: Checkout the code
       - uses: actions/checkout@v3
+
+      # Step 2: Get all changed files and join them using comma separator
       - name: Get all changed files and join them using comma separator
         id: changed-files
         uses: tj-actions/changed-files@v35.6.0
         with:
-          separator: ','
-      - if: ${{ contains(steps.changed-files.outputs.all_changed_files, '.ts') }}
-        name: Cache node modules
-        uses: actions/cache@v3
+          separator: ","
+
+      # Step 3: Cache node modules
+      - name: Cache node modules
         id: node-cache
+        uses: actions/cache@v3
         with:
-          path: '**/node_modules'
-          key: node-modules-${{ hashFiles('**/package-lock.json') }}
-        name: Install modules
+          path: "**/node_modules"
+          key: node-modules-${{ hashFiles("**/package-lock.json") }}
+
+      # Step 4: Install modules
+      - name: Install modules and change directory
         run: npm ci && cd app-v2 && npm ci
-        name: Fetch the base branch, so we can use `git diff`
-        run: git fetch origin ${{ github.event.pull_request.base.ref }}:${{ github.event.pull_request.base.ref }}
-        name: Run ESLint on modified code
+
+      # Step 5: Fetch the base branch, so we can use `git diff`
+      - name: Fetch the base branch, so we can use `git diff`
+        run: git fetch origin "${{ github.event.pull_request.base.ref }}:${{ github.event.pull_request.base.ref }}"
+
+      # Step 6: Run ESLint on modified code
+      - name: Run ESLint on modified code
         env:
           ESLINT_PLUGIN_DIFF_COMMIT: ${{ github.event.pull_request.base.ref }}
         run: npx --no-install eslint --ext .js,.ts .
