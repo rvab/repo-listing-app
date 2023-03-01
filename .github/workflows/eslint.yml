@@ -21,6 +21,7 @@ jobs:
         run: echo "changed=${{contains(steps.changed-files.outputs.all_changed_files, '.ts') ||  contains(steps.changed-files.outputs.all_changed_files, '.js')}}" >> "$GITHUB_OUTPUT"
 
   eslint:
+    name: eslint runner
     runs-on: ubuntu-latest
     needs: files_status
     if: ${{ needs.files_status.outputs.changed == 'true' }}
