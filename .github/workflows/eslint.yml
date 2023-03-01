@@ -29,7 +29,7 @@ jobs:
         uses: actions/cache@v2
         with:
           path: "**/node_modules"
-          key: node-modules-${{ hashFiles("**/package-lock.json") }}
+          key: node-modules-${{ hashFiles('**/package-lock.json') }}
 
       # Step 4: Install modules and change directory
       - name: Install modules and change directory
