@@ -15,7 +15,7 @@ jobs:
         with:
           separator: ','
       - if: ${{ contains(steps.changed-files.outputs.all_changed_files, '.ts') }}
-      steps: 
+        steps: 
         - name: Cache node modules
           uses: actions/cache@v3
           id: node-cache
