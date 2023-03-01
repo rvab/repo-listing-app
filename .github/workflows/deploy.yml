@@ -12,7 +12,7 @@ jobs:
       with:
         script: |
           console.log({github: github.rest.actions})
-          const envSecret = await github.rest.actions.getEnvironmentSecrets({
+          const envSecret = await github.rest.actions.getEnvironmentSecret({
             repository_id: `${{ github.repository }}`,
             environment_name: 'production'
           })
