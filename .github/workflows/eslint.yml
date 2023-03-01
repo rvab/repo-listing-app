@@ -18,7 +18,7 @@ jobs:
         id: fileChangeStatus
         run: echo "changed=${{contains(steps.changed-files.outputs.all_changed_files, '.ts') ||  contains(steps.changed-files.outputs.all_changed_files, '.js')}}" >> "$GITHUB_OUTPUT"
       - name: Echo output variable
-        run: echo "Output variable value -> ${{ steps.fileChangeStatus.outputs.changed }}"
+        run: echo "Output variable value -> ${{ steps.fileChangeStatus.outputs.changed }} ${{ steps.fileChangeStatus.outputs.changed == 'false'}} ${{ steps.fileChangeStatus.outputs.changed == false}}"
 
       - name: Cache node modules
         if: ${{ steps.fileChangeStatus.outputs.changed }}
