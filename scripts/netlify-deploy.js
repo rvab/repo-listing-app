@@ -48,6 +48,7 @@ function deployToNetlify() {
 	
 	req.on('error', error => {
 	  console.error(error);
+    throw new Error(`Failed to trigger the build ${JSON.stringify(error)}`)
 	});
 	
 	req.write(JSON.stringify(data));
