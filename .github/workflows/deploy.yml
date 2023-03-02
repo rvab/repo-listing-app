@@ -8,6 +8,8 @@ jobs:
     runs-on: ubuntu-latest
     environment: production
     steps:
+    - name: Checkout
+      uses: actions/checkout@v3
     - name: My Step
       run: |
         node ./scripts/netlify-deploy.js ${{ secrets.NETLIFY_BUILD_HOOKS }} ${{ github.head_ref }}
