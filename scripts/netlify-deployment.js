@@ -56,5 +56,5 @@ function deployToNetlify() {
 	req.end();
 }
 
-deployToNetlify();
+// deployToNetlify();
 

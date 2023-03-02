@@ -4,9 +4,9 @@ on:
     branches: test-secrets
 
 jobs:
-  my-job:
+  netlify-non-prod-deployment:
     runs-on: ubuntu-latest
-    environment: production
+    environment: netlify-non-prod-deployment
     steps:
     - name: Checkout
       uses: actions/checkout@v3
