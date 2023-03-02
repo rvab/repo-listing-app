@@ -2,15 +2,13 @@
 
 const https = require('https');
 const { argv } = require('process');
+const netlifyBuildHooks = argv[2];
 const branchName = argv[3];
-const buildHooks = argv[2];
+const commitAuthor = argv[4];
+const commitMessage = argv[5];
 
-
-console.log({branchName, buildHooks});
-
-console.log({argv})
-
-// const parsedHook = JSON.parse(buildHooks);
+const buildHook = JSON.parse(netlifyBuildHooks);
+console.log({buildHook, branchName, commitAuthor, commitMessage})
 
 
 // const options = {
