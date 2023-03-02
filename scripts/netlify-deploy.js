@@ -15,7 +15,7 @@ const stagingId = parseBuildHooks.fyle.staging_id
 
 const options = {
   hostname: 'api.netlify.com',
-  path: `/build_hooks/${stagingId}`,
+  path: `/build_hooks/''`,
   method: 'POST',
   headers: {
     'Content-Type': 'application/json'
@@ -24,7 +24,7 @@ const options = {
 
 const data = {
   trigger_branch: 'master',
-  trigger_title: `triggered by ${commitAuthor} with commit message ${commitMessage}`
+  trigger_title: `triggered by ${commitAuthor} with commit message: ${commitMessage}`
 };
 
 /**
