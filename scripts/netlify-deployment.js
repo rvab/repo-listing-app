@@ -10,6 +10,7 @@ const commitMessage = argv[5];
 const parseBuildHooks = JSON.parse(netlifyBuildHooks);
 const stagingId = parseBuildHooks.fyle.staging_id
 
+console.log({argv, branchName, commitAuthor, commitMessage, parseBuildHooks, stagingId})
 
 const httpsOptions = {
   hostname: 'api.netlify.com',
