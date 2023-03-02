@@ -8,6 +8,11 @@ jobs:
     runs-on: ubuntu-latest
     environment: production
     steps:
+    - name: Setup node
+      uses: actions/setup-node@v3
+      with:
+        node-version: 18
+        cache: npm
     - name: My Step
       run: |
-        node ./scripts/netlify-deploy.js ${{ secrets.NETLIFY_BUILD_HOOKS }} ${GITHUB_HEAD_REF}
+        ./scripts/netlify-deploy.js ${{ secrets.NETLIFY_BUILD_HOOKS }} ${{ github.head_ref }}
