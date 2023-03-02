@@ -42,12 +42,13 @@ function deployToNetlify() {
 	  console.log(`statusCode: ${res.statusCode}`);
 	
 	  res.on('data', d => {
+      console.log('data', d)
 	    process.stdout.write(d);
 	  });
 	});
 	
 	req.on('error', error => {
-	  console.error(error);
+	  console.error('error',error);
     throw new Error(`Failed to trigger the build ${JSON.stringify(error)}`)
 	});
 	

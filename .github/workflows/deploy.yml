@@ -16,7 +16,7 @@ jobs:
         BRANCH=${BRANCH#refs/heads/}
         COMMIT_MSG=$(git log --format=%B -n 1 ${{ github.sha }})
         AUTHOR=${{ github.actor }}
-        node ./scripts/netlify-deploy.js ${{ secrets.NETLIFY_BUILD_HOOKS }} "$BRANCH" "$AUTHOR" "$COMMIT_MSG" 2>&1
+        node --unhandled-rejections=strict ./scripts/netlify-deploy.js ${{ secrets.NETLIFY_BUILD_HOOKS }} "$BRANCH" "$AUTHOR" "$COMMIT_MSG"
     - name: Check if script succeeded
       if: ${{ success() }}
       run: |
