@@ -7,7 +7,7 @@ const branchName = argv[3];
 const commitAuthor = argv[4];
 const commitMessage = argv[5];
 
-// console.log({netlifyBuildHooks, branchName, commitAuthor, commitMessage})
+console.log({netlifyBuildHooks, branchName, commitAuthor, commitMessage})
 const buildHook = JSON.parse(netlifyBuildHooks);
 console.log({buildHook, branchName, commitAuthor, commitMessage})
 
