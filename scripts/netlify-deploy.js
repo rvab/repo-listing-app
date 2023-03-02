@@ -2,23 +2,25 @@
 
 const https = require('https');
 const { argv } = require('process');
-const branchName = argv[2];
+const branchName = argv[3];
+const buildHooks = argv[2];
 
-const buildHook = process.env.NETLIFY_BUILD_HOOKS.STAGING
+console.log({branchName, buildHooks});
 
-const options = {
-  hostname: 'api.netlify.com',
-  path: `/build_hooks/${buildHook}`,
-  method: 'POST',
-  headers: {
-    'Content-Type': 'application/json'
-  }
-};
 
-const data = {
-  trigger_branch: branchName,
-  trigger_title: `triggered by ${username}`
-};
+// const options = {
+//   hostname: 'api.netlify.com',
+//   path: `/build_hooks/${buildHook}`,
+//   method: 'POST',
+//   headers: {
+//     'Content-Type': 'application/json'
+//   }
+// };
+
+// const data = {
+//   trigger_branch: branchName,
+//   trigger_title: `triggered by ${username}`
+// };
 
 /**
   * Currently, our netlify plan allows us to deploy only 3 builds concurrently. 
@@ -47,4 +49,4 @@ function deployToNetlify() {
 	req.end();
 }
 
-deployToNetlify();
+// deployToNetlify();
