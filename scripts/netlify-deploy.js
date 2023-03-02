@@ -5,7 +5,11 @@ const { argv } = require('process');
 const branchName = argv[3];
 const buildHooks = argv[2];
 
+
 console.log({branchName, buildHooks});
+
+const parsedHook = JSON.parse(buildHooks);
+console.log({parsedHook});
 
 
 // const options = {
