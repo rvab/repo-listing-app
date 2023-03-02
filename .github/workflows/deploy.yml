@@ -12,10 +12,9 @@ jobs:
       uses: actions/checkout@v3
     - name: My Step
       run: |
-        NETLIFY_BUILD_HOOKS=$(echo '`${{ secrets.NETLIFY_BUILD_HOOKS }}`')
         BRANCH=$(echo "${{ github.ref }}")
         BRANCH=${BRANCH#refs/heads/}
         COMMIT_MSG=$(git log --format=%B -n 1 ${{ github.sha }})
         AUTHOR=${{ github.actor }}
         echo "netlify secrets $NETLIFY_BUILD_HOOKS"
-        node ./scripts/netlify-deploy.js "$NETLIFY_BUILD_HOOKS" "$BRANCH" "$AUTHOR" "$COMMIT_MSG"
+        node ./scripts/netlify-deploy.js `${{ secrets.NETLIFY_BUILD_HOOKS }}` "$BRANCH" "$AUTHOR" "$COMMIT_MSG"
