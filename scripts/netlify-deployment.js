@@ -56,4 +56,8 @@ function deployToNetlify() {
 	req.end();
 }
 
-deployToNetlify();
+try {
+  deployToNetlify();
+} catch(error) {
+  console.log(error)
+}

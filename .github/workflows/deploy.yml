@@ -20,8 +20,8 @@ jobs:
     - name: Check if the build is triggered sucessfully
       if: ${{ success() }}
       run: |
-        echo "Build triggered sucessfully"
+        echo "Build triggered sucessfully."
     - name: Check if script failed
       if: ${{ failure() }}
       run: |
-        echo "Build trigger failed. Please check the logs in `Actions` (https://github.com/rvab/repo-listing-app/actions)"
+        echo "Build trigger failed."
