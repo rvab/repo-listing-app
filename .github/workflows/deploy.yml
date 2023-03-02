@@ -10,4 +10,4 @@ jobs:
     steps:
     - name: My Step
       run: |
-        node scripts/netlify-deploy.js ${{ secrets.NETLIFY_BUILD_HOOKS }} ${{ github.ref }}
+        node ./scripts/netlify-deploy.js ${{ secrets.NETLIFY_BUILD_HOOKS }} ${GITHUB_HEAD_REF}
