@@ -11,9 +11,6 @@ jobs:
       uses: actions/github-script@v5
       with:
         script: |
-          console.log({github: github.rest.actions})
-          const envSecret = await github.rest.actions.getEnvironmentSecret({
-            repository_id: `${{ github.repository }}`,
-            environment_name: 'production'
-          })
-          console.log(envSecret)
+          const NETLIFY_BUILD_HOOKS = JSON.parse(`${{ secrets.NETLIFY_BUILD_HOOKS }}`);
+          const fyleMasterBuildHook = NETLIFY_BUILD_HOOKS.fyle.master;
+          console.log(fyleMasterBuildHook);
