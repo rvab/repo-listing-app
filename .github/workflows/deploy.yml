@@ -17,3 +17,11 @@ jobs:
         COMMIT_MSG=$(git log --format=%B -n 1 ${{ github.sha }})
         AUTHOR=${{ github.actor }}
         node ./scripts/netlify-deploy.js ${{ secrets.NETLIFY_BUILD_HOOKS }} "$BRANCH" "$AUTHOR" "$COMMIT_MSG"
+    - name: Check if script succeeded
+        if: ${{ success() }}
+        run: |
+          echo "Script succeeded"
+      - name: Check if script failed
+        if: ${{ failure() }}
+        run: |
+          echo "Script failed"
