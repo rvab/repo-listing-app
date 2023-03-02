@@ -43,6 +43,9 @@ function deployToNetlify() {
 	
 	  res.on('data', d => {
       console.log('data', d)
+      if (res.statusCode !== 200) {
+        throw new Error(`Failed to trigger the build ${process.stdout.write(d)}`)
+      }
 	    process.stdout.write(d);
 	  });
 	});
