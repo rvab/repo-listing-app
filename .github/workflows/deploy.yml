@@ -1,7 +1,7 @@
 name: My Workflow
 on:
-  pull_request:
-    branches: master
+  push:
+    branches: test-secrets
 
 jobs:
   my-job:
