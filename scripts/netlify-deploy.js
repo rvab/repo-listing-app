@@ -9,23 +9,23 @@ const commitMessage = argv[5];
 
 console.log({argv})
 console.log({netlifyBuildHooks, branchName, commitAuthor, commitMessage})
-const buildHook = JSON.parse(netlifyBuildHooks);
-console.log({buildHook, branchName, commitAuthor, commitMessage})
+const parseBuildHooks = JSON.parse(netlifyBuildHooks);
+const stagingId = parseBuildHooks.fyle.staging_id
 
 
-// const options = {
-//   hostname: 'api.netlify.com',
-//   path: `/build_hooks/${buildHook}`,
-//   method: 'POST',
-//   headers: {
-//     'Content-Type': 'application/json'
-//   }
-// };
+const options = {
+  hostname: 'api.netlify.com',
+  path: `/build_hooks/${stagingId}`,
+  method: 'POST',
+  headers: {
+    'Content-Type': 'application/json'
+  }
+};
 
-// const data = {
-//   trigger_branch: branchName,
-//   trigger_title: `triggered by ${username}`
-// };
+const data = {
+  trigger_branch: 'master',
+  trigger_title: `triggered by ${commitAuthor} with commit message ${commitMessage}`
+};
 
 /**
   * Currently, our netlify plan allows us to deploy only 3 builds concurrently. 
@@ -54,4 +54,4 @@ function deployToNetlify() {
 	req.end();
 }
 
-// deployToNetlify();
+deployToNetlify();
