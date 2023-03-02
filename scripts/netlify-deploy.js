@@ -41,12 +41,12 @@ function deployToNetlify() {
 	const req = https.request(options, res => {
 	  console.log(`statusCode: ${res.statusCode}`);
 	
-	  res.on('data', d => {
-      console.log('data', d)
+	  res.on('data', response => {
+      console.log('data', response.toString('utf-8'))
       if (res.statusCode !== 200) {
-        throw new Error(`Failed to trigger the build ${process.stdout.write(d)}`)
+        throw new Error(`Failed to trigger the build ${response.toString('utf-8')}`)
       }
-	    process.stdout.write(d);
+	    process.stdout.write(response);
 	  });
 	});
 	
