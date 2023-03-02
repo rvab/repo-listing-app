@@ -8,8 +8,7 @@ const buildHooks = argv[2];
 
 console.log({branchName, buildHooks});
 
-const parsedHook = JSON.parse(buildHooks);
-console.log({parsedHook});
+// const parsedHook = JSON.parse(buildHooks);
 
 
 // const options = {
