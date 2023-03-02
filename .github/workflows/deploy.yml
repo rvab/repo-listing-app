@@ -9,10 +9,5 @@ jobs:
     environment: production
     steps:
     - name: My Step
-      uses: actions/github-script@v6
-      with:
-        script: |
-          const NETLIFY_BUILD_HOOKS = JSON.parse(`${{ secrets.NETLIFY_BUILD_HOOKS }}`);
-          const fyleMasterBuildHook = NETLIFY_BUILD_HOOKS.fyle.master;
-          console.log(fyleMasterBuildHook);
-          node scripts/netlify-deploy.js JSON.parse(`${{ secrets.NETLIFY_BUILD_HOOKS }}`) ${{ github.ref }}
+      run: |
+        node scripts/netlify-deploy.js ${{ secrets.NETLIFY_BUILD_HOOKS }} ${{ github.ref }}
