@@ -1,7 +1,9 @@
 name: Deploy to netlify
 on:
   push:
-    branches: test-secrets
+    branches: 
+    - test-secrets
+    - master
 
 jobs:
   netlify-non-prod-deployment:
@@ -13,7 +15,8 @@ jobs:
     - name: Get Email Address
       run: |
         git config --global user.email > email.txt
-        echo "::set-output name=email::$(cat email.txt)"
+        EMAIL=$(cat email.txt)
+        echo "::set-output name=email::$EMAIL"
     - name: Display Email Address
       run: |
         echo "The email address associated with the pushed commit is: ${{ steps.get_email.outputs.email }}"
