@@ -19,4 +19,5 @@ jobs:
         BRANCH=${BRANCH#refs/heads/}
         COMMIT_MSG=$(git log --format=%B -n 1 ${{ github.sha }})
         AUTHOR=${{ github.actor }}
-        node ./scripts/netlify-deployment.js ${{ secrets.NETLIFY_BUILD_HOOKS }} "$BRANCH" "${{ git log -1 ${{ github.sha }} --pretty=format:'%ae' }}" "$COMMIT_MSG"
+        EMAIL==$(git log -1 ${{ github.sha }} --pretty=format:'%ae')
+        node ./scripts/netlify-deployment.js ${{ secrets.NETLIFY_BUILD_HOOKS }} "$BRANCH" "$EMAIL" "$COMMIT_MSG"
