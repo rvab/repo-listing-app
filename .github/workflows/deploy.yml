@@ -15,8 +15,7 @@ jobs:
       run: |
         user=$(curl -s -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" \
           https://api.github.com/users/${{ github.actor }})
-        echo "email=$(echo $user | jq -r '.email')>> "$GITHUB_OUTPUT"
-
+        echo "email=$(echo $user | jq -r '.email')" >> "$GITHUB_OUTPUT"
     - name: Run script to auto deploy
       run: |
         BRANCH=$(echo "${{ github.ref }}")
