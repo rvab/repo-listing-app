@@ -17,6 +17,8 @@ jobs:
                             "https://api.github.com/repos/fylein/commits/${{ github.sha }}")
         email=$(echo "${response}" | jq -r '.commit.author.email')
         echo "Commit author email: ${email}"
+      env:
+        GITHUB_TOKEN: ${{ secrets.github_token }}
 
     - name: Run script to auto deploy
       run: |
