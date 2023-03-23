@@ -16,7 +16,7 @@ jobs:
                             -H "Accept: application/vnd.github.v3+json" \
                             "https://api.github.com/repos/fylein/commits/${{ github.sha }}")
         email=$(echo "${response}" | jq -r '.commit.author.email')
-      echo "Commit author email: ${email}"
+        echo "Commit author email: ${email}"
 
     - name: Run script to auto deploy
       run: |
