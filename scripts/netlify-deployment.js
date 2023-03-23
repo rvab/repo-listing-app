@@ -8,7 +8,7 @@ const commitAuthor = argv[4];
 const commitMessage = argv[5];
 
 const parseBuildHooks = JSON.parse(netlifyBuildHooks);
-const stagingId = parseBuildHooks.fyle.staging_id
+const stagingId = parseBuildHooks.fyle.staging
 
 console.log({argv, branchName, commitAuthor, commitMessage, parseBuildHooks, stagingId})
 

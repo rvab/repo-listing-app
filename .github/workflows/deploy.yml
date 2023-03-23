@@ -10,10 +10,17 @@ jobs:
     steps:
     - name: Checkout
       uses: actions/checkout@v3
+    - name: Get User Email
+      id: email
+      run: |
+        user=$(curl -s -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" \
+          https://api.github.com/users/${{ github.actor }})
+        echo "email=$(echo $user | jq -r '.email')>> "$GITHUB_OUTPUT"
+
     - name: Run script to auto deploy
       run: |
         BRANCH=$(echo "${{ github.ref }}")
         BRANCH=${BRANCH#refs/heads/}
         COMMIT_MSG=$(git log --format=%B -n 1 ${{ github.sha }})
         AUTHOR=${{ github.actor }}
-        node ./scripts/netlify-deployment.js ${{ secrets.NETLIFY_BUILD_HOOKS }} "$BRANCH" "$AUTHOR" "$COMMIT_MSG"
+        node ./scripts/netlify-deployment.js ${{ secrets.NETLIFY_BUILD_HOOKS }} "$BRANCH" "${{ steps.email.outputs.email }}" "$COMMIT_MSG"
