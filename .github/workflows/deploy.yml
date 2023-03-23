@@ -11,12 +11,15 @@ jobs:
     - name: Checkout
       uses: actions/checkout@v3
     - name: Get commit author email
-      run: |
-        response=$(curl -s -H "Authorization: token ${GITHUB_TOKEN}" \
-                            -H "Accept: application/vnd.github.v3+json" \
-                            "https://api.github.com/repos/fylein/commits/${{ github.sha }}")
-        email=$(echo "${response}" | jq -r '.commit.author.email')
-        echo "Commit author email: ${email}"
+      uses: actions/github-script@v4
+      with:
+        script: |
+          const response = await github.rest.repos.getCommit({
+            owner: context.repo.owner,
+            repo: context.repo.repo,
+            ref: context.sha
+          });
+          console.log(response.data.commit.author.email);
       env:
         GITHUB_TOKEN: ${{ secrets.github_token }}
 
