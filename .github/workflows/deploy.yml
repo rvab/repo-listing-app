@@ -14,7 +14,7 @@ jobs:
       id: email
       run: |
         git config --global user.email > email.txt
-        echo "email=$(cat email.txt)" >> "$GITHUB_OUTPUT"
+        echo "::set-output name=email::$(cat email.txt)"
     - name: Run script to auto deploy
       run: |
         BRANCH=$(echo "${{ github.ref }}")
