@@ -63,11 +63,12 @@ function setReleaseBranchDate(date) {
   const utcLastFriday = new Date(date - (utcDay * 24 * 60 * 60 * 1000));
   utcLastFriday.setHours(18, 0, 0)
 
-  createReleaseBranch('fyle', releaseBranch.fyle, utcLastFriday);
-  createReleaseBranch('flow', releaseBranch.flow, utcLastFriday);
   const [month, currentDate, year] = utcLastFriday.toLocaleString().slice(0,9).split('/')
   releaseBranch.fyle = `app_release_${year}_${month.length === 1 ? `0${month}`: month}_${currentDate}`;
   releaseBranch.flow = `flow_app_release_${year}_${month.length === 1 ? `0${month}`: month}_${currentDate}`;
+
+  createReleaseBranch('fyle', releaseBranch.fyle, utcLastFriday);
+  createReleaseBranch('flow', releaseBranch.flow, utcLastFriday);
 }
 
 
