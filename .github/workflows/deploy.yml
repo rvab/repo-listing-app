@@ -1,0 +1,33 @@
+name: Deploy to netlify
+on:
+  push:
+    branches: test-secrets
+
+jobs:
+  netlify-non-prod-deployment:
+    runs-on: ubuntu-latest
+    environment: netlify-non-prod-deployment
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v3
+    - name: Get commit author email
+      uses: actions/github-script@v4
+      with:
+        script: |
+          const response = await github.repos.getCommit({
+            owner: context.repo.owner,
+            repo: context.repo.repo,
+            ref: context.sha
+          });
+          console.log(response.data.commit.author.email);
+      env:
+        GITHUB_TOKEN: ${{ secrets.github_token }}
+
+    - name: Run script to auto deploy
+      run: |
+        BRANCH=$(echo "${{ github.ref }}")
+        BRANCH=${BRANCH#refs/heads/}
+        COMMIT_MSG=$(git log --format=%B -n 1 ${{ github.sha }})
+        AUTHOR=${{ github.actor }}
+        EMAIL==$(git log -1 ${{ github.sha }} --pretty=format:'%ae')
+        node ./scripts/netlify-deployment.js ${{ secrets.NETLIFY_BUILD_HOOKS }} "$BRANCH" "$EMAIL" "$COMMIT_MSG"
