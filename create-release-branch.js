@@ -39,6 +39,7 @@ const createReleaseBranch = (environment, releaseBranch, date) => {
   try {
     execSync(`git ls-remote --exit-code --heads origin ${releaseBranch}`);
   } catch (error) {
+    console.error('Branch creation failed with error', error.toString());
     branchExists = true;
   }
 
