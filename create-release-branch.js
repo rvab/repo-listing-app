@@ -19,17 +19,17 @@ function setReleaseBranchDate(date) {
   const tzOffset = date.getTimezoneOffset();
   const utcDate = Date.UTC(date.getFullYear(), date.getMonth(), date.getDate());
   const utcDay = (date.getUTCDay() + 7 - dayOffset) % 7;
-  const utcLastFriday = new Date(utcDate - (utcDay * 24 * 60 * 60 * 1000));
+  const utcLastFriday = new Date(utcDate - (utcDay * 24 * 60 * 60 * 1000) - (ISTOffset * 60 * 1000));
 
-  const istTime = date.toLocaleString('en-US', { timeZone: 'Asia/Kolkata', hour12: false });
+  const istTime = utcLastFriday.toLocaleString('en-US', { timeZone: 'Asia/Kolkata', hour12: false });
   console.log('UTC time:', utcLastFriday);
-console.log('IST time:', istTime);
+  console.log('IST time:', istTime);
 
 
   console.log('utcLastFriday ---' ,{utcLastFriday})
 
-  releaseBranch.fyle = `app_release_${utcLastFriday.toISOString().slice(0, 10).replaceAll('-', '_')}`;
-  releaseBranch.flow = `flow_app_release_${utcLastFriday.toISOString().slice(0, 10).replaceAll('-', '_')}`;
+  releaseBranch.fyle = `app_release_${istTime.slice(0, 10).replaceAll('-', '_')}`;
+  releaseBranch.flow = `flow_app_release_${istTime.slice(0, 10).replaceAll('-', '_')}`;
 }
 
 
