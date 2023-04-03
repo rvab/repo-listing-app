@@ -1,7 +1,7 @@
 name: Create Release Branch 
 on:
   push:
-    branches: master
+    branches: test-secrets
 
 jobs:
   create-release-branch:
