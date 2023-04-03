@@ -1,7 +1,7 @@
 name: Create Release Branch 
 on:
   push:
-    branches: create-release-branch
+    branches: master
 
 jobs:
   create-release-branch:
