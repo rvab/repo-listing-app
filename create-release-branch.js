@@ -15,10 +15,11 @@ const branchCreationError = {
 };
 
 function setReleaseBranchDate(date) {
+  const ISTOffset = 330; // IST timezone offset in minutes
   const dayOffset = 4; // Friday is the 5th day (0-based index)
   const utcDate = Date.UTC(date.getFullYear(), date.getMonth(), date.getDate());
   const utcDay = (date.getUTCDay() + 7 - dayOffset) % 7;
-  const utcLastFriday = new Date(utcDate - (utcDay * 24 * 60 * 60 * 1000));
+  const utcLastFriday = new Date(utcDate - (utcDay * 24 * 60 * 60 * 1000) - (ISTOffset * 60 * 1000));
 
   releaseBranch.fyle = `app_release_${utcLastFriday.toISOString().slice(0, 10).replaceAll('-', '_')}`;
   releaseBranch.flow = `flow_app_release_${utcLastFriday.toISOString().slice(0, 10).replaceAll('-', '_')}`;
