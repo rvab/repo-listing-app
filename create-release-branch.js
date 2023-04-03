@@ -21,7 +21,7 @@ function setReleaseBranchDate(date) {
   const utcDay = (date.getUTCDay() + 7 - dayOffset) % 7;
   const utcLastFriday = new Date(utcDate - (utcDay * 24 * 60 * 60 * 1000) + (tzOffset * 60 * 1000));
 
-  console.log({utcLastFriday})
+  console.log('utcLastFriday ---' ,{utcLastFriday})
 
   releaseBranch.fyle = `app_release_${utcLastFriday.toISOString().slice(0, 10).replaceAll('-', '_')}`;
   releaseBranch.flow = `flow_app_release_${utcLastFriday.toISOString().slice(0, 10).replaceAll('-', '_')}`;
