@@ -19,7 +19,7 @@ function setReleaseBranchDate(date) {
   const tzOffset = date.getTimezoneOffset();
   const utcDate = Date.UTC(date.getFullYear(), date.getMonth(), date.getDate());
   const utcDay = (date.getUTCDay() + 7 - dayOffset) % 7;
-  const utcLastFriday = new Date(utcDate - (utcDay * 24 * 60 * 60 * 1000) + (330 * 60 * 1000));
+  const utcLastFriday = new Date(utcDate - (utcDay * 24 * 60 * 60 * 1000));
 
   const istTime = utcLastFriday.toLocaleString('en-US', { timeZone: 'Asia/Kolkata', hour12: false });
   console.log('UTC time:', utcLastFriday);
@@ -44,8 +44,8 @@ const getPostCallData = () => {
           "```" +
           `\nFyle app: ${branchCreationError.fyle || releaseBranch.fyle}` +
           `\nFlow app: ${branchCreationError.flow || releaseBranch.flow}` +
-          "```" +
-          `\n Only the commits till Friday ~6PM are present in the release branch, any commits made on Friday night or during weekends will have to be cherry-picked to this week's release branch IF YOU WANT TO RELEASE IN NEXT FULL PUSH. Thanks cc <!subteam^S03AGEX177V>`
+          "```"
+          // `\n Only the commits till Friday ~6PM are present in the release branch, any commits made on Friday night or during weekends will have to be cherry-picked to this week's release branch IF YOU WANT TO RELEASE IN NEXT FULL PUSH. Thanks cc <!subteam^S03AGEX177V>`
         },
       }
     ]
