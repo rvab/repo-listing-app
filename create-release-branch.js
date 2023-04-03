@@ -47,7 +47,7 @@ const createReleaseBranch = (environment, releaseBranch, date) => {
   if (!branchExists) {
     try {
       const commitHash = execSync(`git rev-list -1 --before="${date.toISOString()}" master`).toString().trim();
-      console.log({releaseBranch, commitHash})
+      console.log({releaseBranch, commitHash, date})
       execSync(`git checkout -b ${releaseBranch} ${commitHash}`);
       execSync(`git push origin ${releaseBranch}`);
       console.log(`Branch ${releaseBranch} created successfully.`);
