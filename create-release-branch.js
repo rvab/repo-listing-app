@@ -22,7 +22,7 @@ function setReleaseBranchDate(date) {
   const utcLastFriday = new Date(utcDate - (utcDay * 24 * 60 * 60 * 1000));
 
   const istTime = date.toLocaleString('en-US', { timeZone: 'Asia/Kolkata', hour12: false });
-  console.log('UTC time:', utcTime);
+  console.log('UTC time:', utcLastFriday);
 console.log('IST time:', istTime);
 
 
