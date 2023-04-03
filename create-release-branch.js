@@ -16,20 +16,16 @@ const branchCreationError = {
 
 function setReleaseBranchDate(date) {
   const dayOffset = 4; // Friday is the 5th day (0-based index)
-  const tzOffset = date.getTimezoneOffset();
-  const utcDate = Date.UTC(date.getFullYear(), date.getMonth(), date.getDate());
-  const utcDay = (date.getUTCDay() + 7 - dayOffset) % 7;
-  const utcLastFriday = new Date(utcDate - (utcDay * 24 * 60 * 60 * 1000) + (tzOffset * 60 * 1000));
+  const utcDay = (date.getDay() + 7 - dayOffset) % 7;
+  const utcLastFriday = new Date(date - (utcDay * 24 * 60 * 60 * 1000));
+  utcLastFriday.setHours(24, 0, 0)
 
-  const istTime = utcLastFriday.toLocaleString('en-US', { timeZone: 'Asia/Kolkata', hour12: false });
-  console.log('UTC time:', utcLastFriday);
-  console.log('IST time:', istTime);
+  const [month, currentDate, year] = utcLastFriday.toLocaleString().slice(0,9).split('/')
+  console.log({month, currentDate, year})
 
-
-  console.log('utcLastFriday ---' ,{utcLastFriday})
-
-  releaseBranch.fyle = `app_release_${istTime.slice(0, 10).replaceAll('/', '_')}`;
-  releaseBranch.flow = `flow_app_release_${istTime.slice(0, 10).replaceAll('/', '_')}`;
+  console.log(utcLastFriday.toLocaleString())
+  releaseBranch.fyle = `app_release_${year}_${month.length === 1 ? `0${month}`: month}_${currentDate}`;
+  releaseBranch.flow = `flow_app_release_${year}_${month.length === 1 ? `0${month}`: month}_${currentDate}`;
 }
 
 
@@ -44,8 +40,8 @@ const getPostCallData = () => {
           "```" +
           `\nFyle app: ${branchCreationError.fyle || releaseBranch.fyle}` +
           `\nFlow app: ${branchCreationError.flow || releaseBranch.flow}` +
-          "```"
-          // `\n Only the commits till Friday ~6PM are present in the release branch, any commits made on Friday night or during weekends will have to be cherry-picked to this week's release branch IF YOU WANT TO RELEASE IN NEXT FULL PUSH. Thanks cc <!subteam^S03AGEX177V>`
+          "```" +
+          `\n Only the commits till Friday ~6PM are present in the release branch, any commits made on Friday night or during weekends will have to be cherry-picked to this week's release branch IF YOU WANT TO RELEASE IN NEXT FULL PUSH. Thanks cc <!subteam^S03AGEX177V>`
         },
       }
     ]
