@@ -49,8 +49,8 @@ const createReleaseBranch = (environment, releaseBranch, date) => {
       execSync(`git push origin ${releaseBranch}`);
       console.log(`Branch ${releaseBranch} created successfully.`);
     } catch (error) {
-      console.error('Branch creation failed with error', JSON.stringify(error));
-      branchCreationError[environment] = JSON.stringify(error);
+      console.error('Branch creation failed with error', error.toString());
+      branchCreationError[environment] = error.toString();
     }
   }
 };
