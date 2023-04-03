@@ -19,7 +19,12 @@ function setReleaseBranchDate(date) {
   const tzOffset = date.getTimezoneOffset();
   const utcDate = Date.UTC(date.getFullYear(), date.getMonth(), date.getDate());
   const utcDay = (date.getUTCDay() + 7 - dayOffset) % 7;
-  const utcLastFriday = new Date(utcDate - (utcDay * 24 * 60 * 60 * 1000) + (tzOffset * 60 * 1000));
+  const utcLastFriday = new Date(utcDate - (utcDay * 24 * 60 * 60 * 1000));
+
+  const istTime = date.toLocaleString('en-US', { timeZone: 'Asia/Kolkata', hour12: false });
+  console.log('UTC time:', utcTime);
+console.log('IST time:', istTime);
+
 
   console.log('utcLastFriday ---' ,{utcLastFriday})
 
