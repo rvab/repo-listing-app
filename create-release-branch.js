@@ -4,114 +4,96 @@ const { argv } = require('process');
 const { execSync } = require('child_process');
 
 const slackDeployWebHookUrl = argv[2];
-const releaseBranch = {
-  fyle: '',
-  flow: ''
-};
 
-const branchCreationError = {
-  fyle: '',
-  flow: ''
-};
+const getPostCallData = (releaseBranch, branchCreationError) => {
+  const text = `Web app branch going out in full push on Tuesday\n` +
+  `\`\`\`` +
+  `\napp: ${branchCreationError || releaseBranch}` +
+  `\`\`\`${
+    branchCreationError
+      ? '\n cc <!subteam^S03AGEX177V>'
+      : '\n Only the commits till Friday 6PM are present in the release branch, any commits made on Friday night or during weekends will have to be cherry-picked to this week\'s release branch IF YOU WANT TO RELEASE IN NEXT FULL PUSH. Thanks cc <!subteam^S03AGEX177V>'}`;
 
-// function createReleaseBranch(date) {
-//   const repoPath = "/path/to/your/repo"; // Replace with your actual repo path
-//   const branchName = "new-branch"; // Replace with your desired branch name
-
-//   const commitHash = exec(`git -C ${repoPath} rev-list -1 --before="${utcSixPM.toISOString()}" master`);
-//   commitHash.stdout.on("data", function (hash) {
-//     const command = `git -C ${repoPath} branch ${branchName} ${hash}`;
-//     exec(command, (error, stdout, stderr) => {
-//       if (error) {
-//         console.error(`Failed to create branch ${branchName}: ${error}`);
-//       } else {
-//         console.log(`Branch ${branchName} created successfully`);
-//       }
-//     });
-//   });
-// // This code first calculates the current date and time in UTC, and then adds 6 hours to it to get the cutoff time for commits till 6 PM IST. It then uses the git rev-list command to get the hash of the last commit before this cutoff time on the master branch. Finally, it creates a new branch with the specified name at this commit hash using the git branch command.
-
-
-// }
-
-const createReleaseBranch = (environment, releaseBranch, date) => {
-  let branchExists = false;
-  try {
-    execSync(`git ls-remote --heads origin app_release_2023_03_31`).toString();
-    // execSync(`git ls-remote --exit-code --heads origin ${releaseBranch}`);
-  } catch (error) {
-    console.error('Branch creation failed with error', error.toString());
-    branchExists = true;
-  }
-
-  if (!branchExists) {
-    try {
-      const commitHash = execSync(`git rev-list -1 --before="${date.toISOString()}" master`).toString().trim();
-      console.log({releaseBranch, commitHash, date})
-      execSync(`git checkout -b ${releaseBranch} ${commitHash}`);
-      execSync(`git push origin ${releaseBranch}`);
-      console.log(`Branch ${releaseBranch} created successfully.`);
-    } catch (error) {
-      console.error('Branch creation failed with error', error.toString());
-      branchCreationError[environment] = error.toString();
-    }
-  }
-};
-
-// The below function makes sures that even the script is run manually, then the branch
-function setReleaseBranchDate(date) {
-  const dayOffset = 5; // Friday is the 5th day (0-based index)
-  const utcDay = (date.getDay() + 7 - dayOffset) % 7;
-  const utcLastFriday = new Date(date - (utcDay * 24 * 60 * 60 * 1000));
-  utcLastFriday.setHours(18, 0, 0)
-
-  const [month, currentDate, year] = utcLastFriday.toLocaleString().slice(0,9).split('/')
-  releaseBranch.fyle = `app_release_${year}_${month.length === 1 ? `0${month}`: month}_${currentDate}`;
-  releaseBranch.flow = `flow_app_release_${year}_${month.length === 1 ? `0${month}`: month}_${currentDate}`;
-
-  createReleaseBranch('fyle', releaseBranch.fyle, utcLastFriday);
-  createReleaseBranch('flow', releaseBranch.flow, utcLastFriday);
-}
-
-
-const getPostCallData = () => {
   const postCallData = {
     blocks: [
       {
         type: 'section',
         text: {
           type: 'mrkdwn',
-          text: 'Web app branch going out in full push on Tuesday\n' +
-          "```" +
-          `\nFyle app: ${branchCreationError.fyle || releaseBranch.fyle}` +
-          `\nFlow app: ${branchCreationError.flow || releaseBranch.flow}` +
-          "```" +
-          `\n Only the commits till Friday ~6PM are present in the release branch, any commits made on Friday night or during weekends will have to be cherry-picked to this week's release branch IF YOU WANT TO RELEASE IN NEXT FULL PUSH. Thanks cc <!subteam^S03AGEX177V>`
+          text: text
         },
       }
     ]
   };
+
   return postCallData;
 };
 
-const postMessageToSlack = async () => {
-
-  const response = await fetch(slackDeployWebHookUrl, {
+const postMessageToSlack = (releaseBranch, branchCreationError) => {
+  fetch(slackDeployWebHookUrl, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json'
     },
-    body: JSON.stringify(getPostCallData())
-  });
+    body: JSON.stringify(getPostCallData(releaseBranch, branchCreationError))
+  })
+    .then(response => {
+      if (response.status !== 200) {
+        throw new Error(`Failed to send the message to slack with error message: ${response.statusText}`);
+      }
+      console.log(`Message sent successfully ${response.statusText}`);
+    })
+    .catch(error => console.error('Error sending message to Slack:', error));
+};
 
-  if (response.status !== 200) {
-    throw new Error(`Failed to send the message to slack with error message: ${response.statusText}`);
+const createReleaseBranch = (releaseBranch, date) => {
+  try {
+    // Verify if the branch name exists in the origin
+    execSync(`git ls-remote --heads origin ${releaseBranch}`).toString();
+  } catch (error) {
+    console.error('Failed to verify the branch name exists in the origin', error.toString());
+    return error.toString();
   }
 
-  console.log(`Message sent successfully ${response.statusText}`);
+  try {
+    /**
+     * Get the commit hash of the last commit that was merged before the date passed as an argument.
+     * @link https://git-scm.com/docs/git-rev-list#Documentation/git-rev-list.txt---beforeltdategt
+     */
+    console.log('toISOString',date.toISOString())
+    const commitHash = execSync(`git rev-list -1 --before="${date.toISOString()}" master`).toString().trim();
+    execSync(`git checkout -b ${releaseBranch} ${commitHash}`);
+    execSync(`git push origin ${releaseBranch}`);
+    console.log(`Branch ${releaseBranch} created successfully.`);
+    return '';
+  } catch (error) {
+    const errorMessage = error.toString();
+    if (!errorMessage.includes(`branch named ${releaseBranch} already exists`)) {
+      console.error('Failed to create the release branch', errorMessage);
+      return errorMessage;
+    }
+    return '';
+  }
 };
 
 
-setReleaseBranchDate(new Date());
+/**
+ * In case the job fails due to an unknown reason, running the script manually should create the release branch
+ * for web app with the commits that are merged till the previous Friday at 6PM.
+ */
+function setReleaseBranchDate(date) {
 
-// postMessageToSlack(branchCreationError);
+  const utcLastFriday = new Date(date);
+  utcLastFriday.setDate(date.getDate() - ((date.getDay() || 7) + 2) % 7);
+  utcLastFriday.setHours(23, 30, 0);
+  console.log(utcLastFriday.toLocaleString())
+
+  const [month, currentDate, year] = utcLastFriday.toLocaleString().slice(0, 9).split('/');
+  const releaseBranch = `app_release_${year}_${month.padStart(2, '0')}_${currentDate}`;
+
+  const branchCreationError = createReleaseBranch(releaseBranch, utcLastFriday);
+
+  postMessageToSlack(releaseBranch, branchCreationError);
+}
+
+setReleaseBranchDate(new Date());
