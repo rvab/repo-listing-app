@@ -5,6 +5,12 @@ const { execSync } = require('child_process');
 
 const slackDeployWebHookUrl = argv[2];
 
+/*
+ * if (!slackDeployWebHookUrl) {
+ *   throw new Error('Slack deploy webhook url is not provided');
+ * }
+ */
+
 const getPostCallData = (releaseBranch, branchCreationError) => {
   const text = `Web app branch going out in full push on Tuesday\n` +
   `\`\`\`` +
@@ -60,7 +66,6 @@ const createReleaseBranch = (releaseBranch, date) => {
      * Get the commit hash of the last commit that was merged before the date passed as an argument.
      * @link https://git-scm.com/docs/git-rev-list#Documentation/git-rev-list.txt---beforeltdategt
      */
-    console.log('toISOString',date.toISOString())
     const commitHash = execSync(`git rev-list -1 --before="${date.toISOString()}" master`).toString().trim();
     execSync(`git checkout -b ${releaseBranch} ${commitHash}`);
     execSync(`git push origin ${releaseBranch}`);
@@ -81,12 +86,11 @@ const createReleaseBranch = (releaseBranch, date) => {
  * In case the job fails due to an unknown reason, running the script manually should create the release branch
  * for web app with the commits that are merged till the previous Friday at 6PM.
  */
-function setReleaseBranchDate(date) {
+function createAndNotifyReleaseBranch(date) {
 
   const utcLastFriday = new Date(date);
   utcLastFriday.setDate(date.getDate() - ((date.getDay() || 7) + 2) % 7);
-  utcLastFriday.setHours(23, 30, 0);
-  console.log(utcLastFriday.toLocaleString())
+  utcLastFriday.setHours(18, 0, 0);
 
   const [month, currentDate, year] = utcLastFriday.toLocaleString().slice(0, 9).split('/');
   const releaseBranch = `app_release_${year}_${month.padStart(2, '0')}_${currentDate}`;
@@ -96,4 +100,4 @@ function setReleaseBranchDate(date) {
   postMessageToSlack(releaseBranch, branchCreationError);
 }
 
-setReleaseBranchDate(new Date());
+createAndNotifyReleaseBranch(new Date());
