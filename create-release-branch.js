@@ -55,7 +55,8 @@ const postMessageToSlack = (releaseBranch, branchCreationError) => {
 const createReleaseBranch = (releaseBranch, date) => {
   try {
     // Verify if the branch name exists in the origin
-    execSync(`git ls-remote --heads origin ${releaseBranch}`).toString();
+    const result = execSync(`git ls-remote --heads origin releaseBranch`).toString();
+    console.log({result})
   } catch (error) {
     console.error('Failed to verify the branch name exists in the origin', error.toString());
     return error.toString();
