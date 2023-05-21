@@ -42,7 +42,7 @@ jobs:
     if: ${{ needs.files_status.outputs.jstschanged == 'true' }}
     steps:
       - name: Run eslint
-        uses: eslint.yml
+        uses: .github/workflows/eslint.yml
 
   run_stylelint:
     name: Run stylelint
@@ -52,7 +52,7 @@ jobs:
     if: ${{ needs.files_status.outputs.cssChanged == 'true' }}
     steps:
       - name: Run stylelint
-        uses: stylelint.yml
+        uses: .github/workflows/stylelint.yml
      
   run_accounts_unit_test:
     name: Run stylelint
