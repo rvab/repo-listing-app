@@ -52,10 +52,6 @@ jobs:
     name: Run stylelint
     runs-on: ubuntu-latest
     needs: files_status
-    paths: 
-      - 'app-v2/apps/accounts/src/**/*.html'
-      - 'app-v2/apps/accounts/src/**/*.ts'
-    
     # Run the job only if there are changes in SCSSS files
     if: ${{ needs.files_status.outputs.accountsAppChanges == 'true' }}
     steps:
