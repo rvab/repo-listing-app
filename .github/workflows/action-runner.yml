@@ -49,9 +49,9 @@ jobs:
         with:
           path: '**/node_modules'
           key: node-modules-${{ hashFiles('**/package-lock.json') }}
+      - uses: actions/checkout@v3
       - name: Install modules
         run: npm ci
-      - uses: actions/checkout@v3
       - name: Fetch the base branch, so we can use `git diff`
         run: git fetch origin ${{ github.event.pull_request.base.ref }}:${{ github.event.pull_request.base.ref }}
       - name: Run ESLint on modified code
