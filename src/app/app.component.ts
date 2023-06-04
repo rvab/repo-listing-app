@@ -30,6 +30,8 @@ export class AppComponent {
                               PRIVATE
   =====================================================================*/
   private resetPreviousData() {
+    var a = 10;
+    console.log({a})
     if (this.userInfo) {
       this.userInfo = null;
       this.repoLists = null;
