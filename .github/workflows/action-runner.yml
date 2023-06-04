@@ -22,7 +22,7 @@ jobs:
           separator: ','
       - name: Set filesStatus output to a variable
         id: filesStatus
-        run:
+        run: |
           echo "jstsChanged=${{ github.event_name != 'push' && (contains(steps.changed_files.outputs.all_changed_files, '.ts') ||  contains(steps.changed-files.outputs.all_changed_files, '.js'))}}" >> "$GITHUB_OUTPUT"
           echo "cssChanged=${{ github.event_name != 'push' && contains(steps.changed_files.outputs.all_changed_files, '.scss') }}" >> "$GITHUB_OUTPUT"
           echo "accountsAppChanged=${{github.event_name != 'push' && contains(steps.changed_files.outputs.all_changed_files, 'app-v2/apps/accounts/src')}}" >> "$GITHUB_OUTPUT"
@@ -44,6 +44,7 @@ jobs:
       - name: 'Print jstsChanged value'
         run:
           echo "${{needs.files_status.outputs.jstsChanged}}"
+      - uses: actions/checkout@v3
       - name: Fetch the base branch, so we can use `git diff`
         run: git fetch origin ${{ github.event.pull_request.base.ref }}:${{ github.event.pull_request.base.ref }}
       - name: Run ESLint on modified code
@@ -58,6 +59,7 @@ jobs:
     # Run the job only if there are changes in SCSS files
     if: ${{ needs.files_status.outputs.cssChanged == 'true' }}
     steps:
+      - uses: actions/checkout@v3
       - name: stylelint
         uses: reviewdog/action-stylelint@v1
         with:
@@ -73,6 +75,7 @@ jobs:
     # Run the job only if there are changes in TS/HTML files
     if: ${{ needs.files_status.outputs.accountsAppChanged == 'true' }}
     steps:
+      - uses: actions/checkout@v3
       - name: Run unit test for accounts app
         run: |
           cd app-v2
