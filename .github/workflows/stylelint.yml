@@ -1,6 +1,18 @@
-name: stylelint
-  uses: reviewdog/action-stylelint@v1
-  with:
-    reporter: github-pr-review
-    stylelint_input: '**/*.scss'
-    fail_on_error: true
+name: Stylelint Workflow
+
+on:
+  repository_dispatch:
+    types:
+      - stylelint-check
+
+jobs:
+  stylelint_job:
+    name: Stylelint Job
+    runs-on: ubuntu-latest
+    steps:
+      - name: stylelint
+        uses: reviewdog/action-stylelint@v1
+          with:
+            reporter: github-pr-review
+            stylelint_input: '**/*.scss'
+            fail_on_error: true
