@@ -39,7 +39,7 @@ jobs:
   eslint:
     name: eslint runner
     runs-on: ubuntu-latest
-    needs: files_status\
+    needs: files_status
     steps:
       - name: 'Print jstsChanged value'
         run:
