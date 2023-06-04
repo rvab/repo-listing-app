@@ -23,7 +23,6 @@ jobs:
       - name: Set filesStatus output to a variable
         id: filesStatus
         run:
-          run
           echo "jstsChanged=${{ github.event_name != 'push' && (contains(steps.changed-files.outputs.all_changed_files, '.ts') ||  contains(steps.changed-files.outputs.all_changed_files, '.js'))}}" >> "$GITHUB_OUTPUT"
           echo "cssChanged=${{ github.event_name != 'push' && contains(steps.changed-files.outputs.all_changed_files, '.scss') }}" >> "$GITHUB_OUTPUT"
           echo "accountsAppChanged=${{github.event_name != 'push' && contains(steps.changed-files.outputs.all_changed_files, 'app-v2/apps/accounts/src')}}" >> "$GITHUB_OUTPUT"
