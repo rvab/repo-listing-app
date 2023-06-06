@@ -44,7 +44,7 @@ jobs:
     
   eslint:
     needs: files_status
-    uses: ./.github/workflows/eslint.yaml
+    uses: ./.github/workflows/eslint.yml
 
   stylelint:
     name: stylelint runner
