@@ -36,6 +36,7 @@ jobs:
     # Run the job only if there are changes in JS/TS files
     if: ${{ needs.files_status.outputs.jstsChanged == 'true' }}
     steps:
+      - uses: actions/checkout@v3
       - uses: ./common-workflow.yml
       - name: Fetch the base branch, so we can use `git diff`
         run: git fetch origin ${{ github.event.pull_request.base.ref }}:${{ github.event.pull_request.base.ref }}
@@ -67,6 +68,7 @@ jobs:
     # Run the job only if there are changes in TS/HTML files
     if: ${{ needs.files_status.outputs.accountsAppChanged == 'true' }}
     steps:
+      - uses: actions/checkout@v3
       - uses: ./common-workflow.yml
       - name: Run unit test for accounts app
         run: |
