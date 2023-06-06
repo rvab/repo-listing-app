@@ -1,9 +1,12 @@
 name: Run Code quality checks
+
 on:
   pull_request:
-    branches: master
+    branches:
+      - master
   push:
-    branches: master
+    branches:
+      - master
 
 jobs:
   files_status:
@@ -23,21 +26,20 @@ jobs:
       - name: Set filesStatus output to a variable
         id: filesStatus
         run: |
-          echo "jstsChanged=${{ github.event_name != 'push' && (contains(steps.changed_files.outputs.all_changed_files, '.ts') ||  contains(steps.changed-files.outputs.all_changed_files, '.js'))}}" >> "$GITHUB_OUTPUT"
-          echo "cssChanged=${{ github.event_name != 'push' && contains(steps.changed_files.outputs.all_changed_files, '.scss') }}" >> "$GITHUB_OUTPUT"
-          echo "accountsAppChanged=${{github.event_name != 'push' && contains(steps.changed_files.outputs.all_changed_files, 'app-v2/apps/accounts/src')}}" >> "$GITHUB_OUTPUT"
-       - name: Run Common Workflow
+          echo "jstsChanged=${{ github.event_name != 'push' && (contains(steps.changed_files.outputs.all_changed_files, '.ts') || contains(steps.changed_files.outputs.all_changed_files, '.js')) }}" >> $GITHUB_ENV
+          echo "cssChanged=${{ github.event_name != 'push' && contains(steps.changed_files.outputs.all_changed_files, '.scss') }}" >> $GITHUB_ENV
+          echo "accountsAppChanged=${{ github.event_name != 'push' && contains(steps.changed_files.outputs.all_changed_files, 'app-v2/apps/accounts/src') }}" >> $GITHUB_ENV
+      - name: Run Common Workflow
         run: |
           echo "::group::Cache node modules"
-          steps:
-            - uses: actions/cache@v3
-              id: node-cache
-              with:
-                path: '**/node_modules'
-                key: node-modules-${{ hashFiles('**/package-lock.json') }}
+          - uses: actions/cache@v3
+            id: node-cache
+            with:
+              path: '**/node_modules'
+              key: node-modules-${{ hashFiles('**/package-lock.json') }}
           echo "::endgroup::"
           
-        - if: ${{ steps.node-cache.outputs.cache-hit != 'true' }}
+          - if: ${{ steps.node-cache.outputs.cache-hit != 'true' }}
             name: Install modules
             run: |
               npm ci
