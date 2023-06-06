@@ -27,8 +27,7 @@ jobs:
         with:
           separator: ','
           files_ignore: |
-            package.json
-            package-lock.json
+            package*.json
       - name: Set filesStatus output to a variable
         id: filesStatus
         run: |
