@@ -32,18 +32,16 @@ jobs:
       - name: Run Common Workflow
         run: |
           echo "::group::Cache node modules"
-          - uses: actions/cache@v3
-            id: node-cache
-            with:
-              path: '**/node_modules'
-              key: node-modules-${{ hashFiles('**/package-lock.json') }}
+        - uses: actions/cache@v3
+          id: node-cache
+          with:
+            path: '**/node_modules'
+            key: node-modules-${{ hashFiles('**/package-lock.json') }}
           echo "::endgroup::"
           
           - if: ${{ steps.node-cache.outputs.cache-hit != 'true' }}
             name: Install modules
             run: |
-              npm ci
-              cd app-v2
               npm ci
     
   eslint:
