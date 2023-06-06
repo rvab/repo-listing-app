@@ -27,9 +27,11 @@ jobs:
       - name: Set filesStatus output to a variable
         id: filesStatus
         run: |
-          echo "jstsChanged=${{ github.event_name != 'push' && (contains(steps.changed_files.outputs.all_changed_files, '.ts') || contains(steps.changed_files.outputs.all_changed_files, '.js')) }}" >> $GITHUB_OUTPUT
-          echo "cssChanged=${{ github.event_name != 'push' && contains(steps.changed_files.outputs.all_changed_files, '.scss') }}" >> $GITHUB_OUTPUT
-          echo "accountsAppChanged=${{ github.event_name != 'push' && contains(steps.changed_files.outputs.all_changed_files, 'app-v2/apps/accounts/src') }}" >> $GITHUB_OUTPUT
+          if [[ ${{ github.event_name }} != 'push' ]]; then
+            echo "jstsChanged=${{ (contains(steps.changed_files.outputs.all_changed_files, '.ts') || contains(steps.changed_files.outputs.all_changed_files, '.js')) }}" >> $GITHUB_OUTPUT
+            echo "cssChanged=${{ contains(steps.changed_files.outputs.all_changed_files, '.scss') }}" >> $GITHUB_OUTPUT
+            echo "accountsAppChanged=${{ contains(steps.changed_files.outputs.all_changed_files, 'app-v2/apps/accounts/src') }}" >> $GITHUB_OUTPUT
+          fi
       - name: Cache node modules
         uses: actions/cache@v3
         id: node-cache
