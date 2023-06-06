@@ -24,10 +24,12 @@ jobs:
         uses: tj-actions/changed-files@v35.6.0
         with:
           separator: ','
+          files_ignore: 'package.json'
       - name: Set filesStatus output to a variable
         id: filesStatus
         run: |
           if [[ ${{ github.event_name }} != 'push' ]]; then
+            echo " ${{ steps.changed_files.outputs.all_changed_files }}"
             echo "jstsChanged=${{ (contains(steps.changed_files.outputs.all_changed_files, '.ts') || contains(steps.changed_files.outputs.all_changed_files, '.js')) }}" >> $GITHUB_OUTPUT
             echo "cssChanged=${{ contains(steps.changed_files.outputs.all_changed_files, '.scss') }}" >> $GITHUB_OUTPUT
             echo "accountsAppChanged=${{ contains(steps.changed_files.outputs.all_changed_files, 'app-v2/apps/accounts/src') }}" >> $GITHUB_OUTPUT
