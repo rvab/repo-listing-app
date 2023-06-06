@@ -32,7 +32,7 @@ jobs:
       - name: Run Common Workflow
         run: |
           echo "::group::Cache node modules"
-        - uses: actions/cache@v3
+          uses: actions/cache@v3
           id: node-cache
           with:
             path: '**/node_modules'
