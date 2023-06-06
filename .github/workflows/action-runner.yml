@@ -26,7 +26,7 @@ jobs:
         uses: tj-actions/changed-files@v35.6.0
         with:
           separator: ','
-          files_ignore: package.json,app-v2/package.json
+          files_ignore: package.json
       - name: Set filesStatus output to a variable
         id: filesStatus
         run: |
