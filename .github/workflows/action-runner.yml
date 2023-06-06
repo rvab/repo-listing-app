@@ -27,7 +27,7 @@ jobs:
           echo "cssChanged=${{ github.event_name != 'push' && contains(steps.changed_files.outputs.all_changed_files, '.scss') }}" >> "$GITHUB_OUTPUT"
           echo "accountsAppChanged=${{github.event_name != 'push' && contains(steps.changed_files.outputs.all_changed_files, 'app-v2/apps/accounts/src')}}" >> "$GITHUB_OUTPUT"
       - name: Run Common Workflow
-        uses: ./common-workflow.yml
+        uses: ./.github/workflows/common-workflow.yml
     
   eslint:
     name: eslint runner
@@ -37,7 +37,7 @@ jobs:
     if: ${{ needs.files_status.outputs.jstsChanged == 'true' }}
     steps:
       - name: Run Common Workflow
-        uses: ./common-workflow.yml
+        uses: ./.github/workflows/common-workflow.yml
       - name: Fetch the base branch, so we can use `git diff`
         run: git fetch origin ${{ github.event.pull_request.base.ref }}:${{ github.event.pull_request.base.ref }}
       - name: Run ESLint on modified code
@@ -69,7 +69,7 @@ jobs:
     if: ${{ needs.files_status.outputs.accountsAppChanged == 'true' }}
     steps:
       - name: Run Common Workflow
-        uses: ./common-workflow.yml
+        uses: ./.github/workflows/common-workflow.yml
       - name: Run unit test for accounts app
         run: |
           cd app-v2
