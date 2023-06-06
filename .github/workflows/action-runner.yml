@@ -2,21 +2,23 @@ name: Run Code quality checks
 
 on:
   pull_request:
-    branches:
-      - master
+    branches: master
+
   push:
-    branches:
-      - master
+    branches: master
 
 jobs:
   files_status:
-    name: check for file changes in JS/TS/SCSS/ or accounts app
+    name: check for file changes in JS/TS/SCSS/HTML
     runs-on: ubuntu-latest
     outputs:
-      changed: ${{ steps.filesStatus.outputs.changed }}
       jstsChanged: ${{ steps.filesStatus.outputs.jstsChanged }}
       cssChanged: ${{ steps.filesStatus.outputs.cssChanged }}
       accountsAppChanged: ${{ steps.filesStatus.outputs.accountsAppChanged }}
+      spenderAppChanged: ${{ steps.filesStatus.outputs.spenderAppChanged }}
+      adminAppChanged: ${{ steps.filesStatus.outputs.adminAppChanged }}
+      settingsAppChanged: ${{ steps.filesStatus.outputs.settingsAppChanged }}
+      upsertExpenseAppChanged: ${{ steps.filesStatus.outputs.upsertExpenseAppChanged }}
     steps:
       - uses: actions/checkout@v3
       - name: Get all changed files and join them using comma separator
@@ -24,15 +26,19 @@ jobs:
         uses: tj-actions/changed-files@v35.6.0
         with:
           separator: ','
-          files_ignore: 'package.json'
+          files_ignore: 'package.json, app-v2/package.json'
       - name: Set filesStatus output to a variable
         id: filesStatus
         run: |
           if [[ ${{ github.event_name }} != 'push' ]]; then
             echo " ${{ steps.changed_files.outputs.all_changed_files }}"
-            echo "jstsChanged=${{ (contains(steps.changed_files.outputs.all_changed_files, '.ts') || contains(steps.changed_files.outputs.all_changed_files, '.js')) }}" >> $GITHUB_OUTPUT
+            echo "jstsChanged=${{ contains(steps.changed_files.outputs.all_changed_files, '.ts') ||  (contains(steps.changed_files.outputs.all_changed_files, '.js')) }}" >> $GITHUB_OUTPUT
             echo "cssChanged=${{ contains(steps.changed_files.outputs.all_changed_files, '.scss') }}" >> $GITHUB_OUTPUT
             echo "accountsAppChanged=${{ contains(steps.changed_files.outputs.all_changed_files, 'app-v2/apps/accounts/src') }}" >> $GITHUB_OUTPUT
+            echo "spenderAppChanged=${{ contains(steps.changed_files.outputs.all_changed_files, 'app-v2/apps/spender/src') }}" >> $GITHUB_OUTPUT
+            echo "adminAppChanged=${{ contains(steps.changed_files.outputs.all_changed_files, 'app-v2/apps/admin/src') }}" >> $GITHUB_OUTPUT
+            echo "settingsAppChanged=${{ contains(steps.changed_files.outputs.all_changed_files, 'app-v2/apps/settings/src') }}" >> $GITHUB_OUTPUT
+            echo "upsertExpenseAppChanged=${{ contains(steps.changed_files.outputs.all_changed_files, 'app-v2/apps/upsert-expense/src') }}" >> $GITHUB_OUTPUT
           fi
       - name: Cache node modules
         uses: actions/cache@v3
@@ -45,8 +51,24 @@ jobs:
         run: npm ci
     
   eslint:
+    name: eslint runner
+    runs-on: ubuntu-latest
     needs: files_status
-    uses: ./.github/workflows/eslint.yml
+    if: ${{ needs.files_status.outputs.jstsChanged == 'true' }}
+    steps:
+      - uses: actions/checkout@v3
+      - name: Cache node modules
+        uses: actions/cache@v3
+        id: node-cache
+        with:
+          path: '**/node_modules'
+          key: node-modules-${{ hashFiles('**/package-lock.json') }}
+      - name: Fetch the base branch, so we can use `git diff`
+        run: git fetch origin ${{ github.event.pull_request.base.ref }}:${{ github.event.pull_request.base.ref }}
+      - name: Run ESLint on modified code
+        env:
+          ESLINT_PLUGIN_DIFF_COMMIT: ${{ github.event.pull_request.base.ref }}
+        run: npx --no-install eslint --ext .js,.ts .
 
   stylelint:
     name: stylelint runner
@@ -62,33 +84,3 @@ jobs:
           reporter: github-pr-review
           stylelint_input: '**/*.scss'
           fail_on_error: true
-     
-  accounts_unit_test:
-    name: accounts unit test
-    runs-on: ubuntu-latest
-    needs: files_status
-    
-    # Run the job only if there are changes in TS/HTML files
-    if: ${{ needs.files_status.outputs.accountsAppChanged == 'true' }}
-    steps:
-      - uses: actions/checkout@v3
-      - name: Cache node modules
-        uses: actions/cache@v3
-        id: node-cache
-        with:
-          path: '**/node_modules'
-          key: node-modules-${{ hashFiles('**/package-lock.json') }}
-      - name: Run unit test for accounts app 
-        run: |
-          cd app-v2
-          # We generate config.ts file during app build based on the environment(flow or fyle app).
-          # Without the file, unit test throws compilation errors. To resolve the issue, either build the whole app
-          # or run the below command.
-          node ./scripts/set-target-config.js --targetApp fyle --appName accounts
-          npm run accounts-test
-      - name: Unit Test Coverage
-        uses: fylein/comment-test-coverage@master
-        with:
-          token: ${{ secrets.GITHUB_TOKEN }}
-          path: app-v2/coverage/apps/accounts/coverage-summary.json
-          title: Accounts Unit Test Coverage
