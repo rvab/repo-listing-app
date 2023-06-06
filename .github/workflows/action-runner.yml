@@ -26,7 +26,7 @@ jobs:
         uses: tj-actions/changed-files@v35.6.0
         with:
           separator: ','
-          files_ignore: 
+          files_ignore: |
             package.json
             package-lock.json
       - name: Set filesStatus output to a variable
