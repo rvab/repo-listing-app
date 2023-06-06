@@ -1,5 +1,13 @@
 name: Common Workflow
 
+on:
+  pull_request:
+    branches:
+      - master
+  push:
+    branches:
+      - master
+
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -13,4 +21,4 @@ jobs:
           key: node-modules-${{ hashFiles('**/package-lock.json') }}
       - if: ${{ steps.node-cache.outputs.cache-hit != 'true' }}
         name: Install modules
-        run: npm ci && cd app-v2 && npm ci
+        run: npm ci
