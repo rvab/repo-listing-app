@@ -91,7 +91,7 @@ jobs:
         with:
           path: '**/node_modules'
           key: node-modules-${{ hashFiles('**/package-lock.json') }}
-      - name: Run unit test for accounts app
+      - name: Run unit test for accounts app 
         run: |
           cd app-v2
           # We generate config.ts file during app build based on the environment(flow or fyle app).
