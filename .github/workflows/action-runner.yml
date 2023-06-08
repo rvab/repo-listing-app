@@ -20,6 +20,7 @@ jobs:
       settingsAppChanged: ${{ steps.filesStatus.outputs.settingsAppChanged }}
       upsertExpenseAppChanged: ${{ steps.filesStatus.outputs.upsertExpenseAppChanged }}
     steps:
+      - uses: actions/checkout@v3
       - name: Testing actions 
         uses: ./.github/actions/unit-test-action
         with:
