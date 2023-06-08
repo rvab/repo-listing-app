@@ -28,6 +28,7 @@ jobs:
           separator: ','
           files_ignore: |
             package*.json
+      - name: Testing actions 
         uses: ./.github/actions/unit-test-action
         with:
           app-name: 'accounts'
