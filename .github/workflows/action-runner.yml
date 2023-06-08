@@ -28,7 +28,7 @@ jobs:
           separator: ','
           files_ignore: |
             package*.json
-      - uses: /./github/actions/unit-test-action
+      - uses: ././github/actions/unit-test-action
         with:
           app-name: 'accounts'
           github-token: ${{ secrets.GITHUB_TOKEN }}
