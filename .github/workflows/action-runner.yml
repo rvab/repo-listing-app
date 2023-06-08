@@ -20,14 +20,6 @@ jobs:
       settingsAppChanged: ${{ steps.filesStatus.outputs.settingsAppChanged }}
       upsertExpenseAppChanged: ${{ steps.filesStatus.outputs.upsertExpenseAppChanged }}
     steps:
-      - uses: actions/checkout@v3
-      - name: Get all changed files and join them using comma separator
-        id: changed_files
-        uses: tj-actions/changed-files@v35.6.0
-        with:
-          separator: ','
-          files_ignore: |
-            package*.json
       - name: Testing actions 
         uses: ./.github/actions/unit-test-action
         with:
