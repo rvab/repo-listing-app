@@ -2,14 +2,13 @@ name: 'Unit Test'
 description: 'Runs unit tests for the given app name'
 inputs:
   app-name: 
-    description: application name
+    description: 'Application name'
     required: true
   github-token:
     description: 'GitHub repository token'
     required: true
 runs:
   using: 'shell'
-  shell: bash
   steps:
     - name: 'Checkout'
       uses: 'actions/checkout@v2'
