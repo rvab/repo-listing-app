@@ -8,11 +8,10 @@ inputs:
     description: 'GitHub repository token'
     required: true
 runs:
-  using: 'shell'
+  using: "composite"
   steps:
-    - name: 'Checkout'
-      uses: 'actions/checkout@v2'
     - name: 'Unit Test'
+      shell: bash
       run: |
         echo ${{ inputs.app-name }}
         echo ${{ inputs.github-token }}
