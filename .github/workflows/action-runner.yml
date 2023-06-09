@@ -13,6 +13,15 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
+      - name: Get all changed files and join them using comma separator
+        id: changed_files
+        uses: tj-actions/changed-files@v35.6.0
+        with:
+          separator: ','
+          files_ignore: |
+            package*.json
+            app-v2/package*.json
+          since_last_remote_commit: true
       - name: Testing actions 
         uses: ./.github/actions/unit-test-action
         with:
