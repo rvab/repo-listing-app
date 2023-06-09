@@ -22,6 +22,12 @@ jobs:
             package*.json
             app-v2/package*.json
           since_last_remote_commit: true
+      - name: Set filesStatus output to a variable
+        id: filesStatus
+        run: |
+          if [[ ${{ github.event_name }} != 'push' ]]; then
+            echo " ${{ steps.changed_files.outputs.all_changed_files }}"
+          fi
       - name: Testing actions 
         uses: ./.github/actions/unit-test-action
         with:
