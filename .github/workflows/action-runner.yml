@@ -38,7 +38,7 @@ jobs:
     name: eslint runner
     runs-on: ubuntu-latest
     needs: files_status
-    if: ${{ needs.files_status.outputs.jstsChanged == 'true' && needs.save_workflow_result.result != 'success' }}
+    if: ${{ needs.files_status.outputs.jstsChanged == 'true' && needs.save_workflow_result.outputs.create_artifact == 'failure' }}
     steps:
       - uses: actions/checkout@v3
       - name: Cache node modules
@@ -62,7 +62,7 @@ jobs:
     steps:
       - name: Create Artifact
         id: create_artifact
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v2
         with:
           name: workflow-result
           path: ${{ github.workflow }}
@@ -72,7 +72,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Download Artifact
-        uses: actions/download-artifact@v3
+        uses: actions/download-artifact@v2
         with:
           name: workflow-result
           path: previous_workflow
