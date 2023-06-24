@@ -18,9 +18,6 @@ jobs:
         uses: tj-actions/changed-files@v35.6.0
         with:
           separator: ','
-          files_ignore: |
-            package*.json
-            app-v2/package*.json
           since_last_remote_commit: true
       - name: Set filesStatus output to a variable
         id: filesStatus
