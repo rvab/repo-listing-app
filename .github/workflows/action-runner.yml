@@ -32,3 +32,56 @@ jobs:
         with:
           app-name: 'accounts'
           github-token: ${{ secrets.GITHUB_TOKEN }}
+
+
+  eslint:
+    name: eslint runner
+    runs-on: ubuntu-latest
+    needs: files_status
+    if: ${{ needs.files_status.outputs.jstsChanged == 'true' && needs.save_workflow_result.result != 'success' }}
+    steps:
+      - uses: actions/checkout@v3
+      - name: Cache node modules
+        uses: actions/cache@v3
+        id: node-cache
+        with:
+          path: '**/node_modules'
+          key: node-modules-${{ hashFiles('**/package-lock.json') }}
+      - name: Fetch the base branch, so we can use `git diff`
+        run: git fetch origin ${{ github.event.pull_request.base.ref }}:${{ github.event.pull_request.base.ref }}
+      - name: Run ESLint on modified code
+        env:
+          ESLINT_PLUGIN_DIFF_COMMIT: ${{ github.event.pull_request.base.ref }}
+        run: npx --no-install eslint --ext .js,.ts .
+
+
+  save_workflow_result:
+    name: Save Workflow Result
+    needs: files_status
+    runs-on: ubuntu-latest
+    steps:
+      - name: Create Artifact
+        id: create_artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: workflow-result
+          path: ${{ github.workflow }}
+
+  check_previous_workflow:
+    name: Check Previous Workflow Status
+    runs-on: ubuntu-latest
+    steps:
+      - name: Download Artifact
+        uses: actions/download-artifact@v3
+        with:
+          name: workflow-result
+          path: previous_workflow
+      - name: Check Workflow Status
+        id: check_workflow_status
+        run: |
+          if [[ -f "previous_workflow/${{ github.workflow }}" ]]; then
+            workflow_status=$(cat "previous_workflow/${{ github.workflow }}")
+            echo "result=${{ workflow_status }}" >> $GITHUB_OUTPUT
+          else
+            echo "result=''" >> $GITHUB_OUTPUT
+          fi
