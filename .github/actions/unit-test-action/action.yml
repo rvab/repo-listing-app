@@ -1,0 +1,17 @@
+name: 'Unit Test'
+description: 'Runs unit tests for the given app name'
+inputs:
+  app-name: 
+    description: 'Application name'
+    required: true
+  github-token:
+    description: 'GitHub repository token'
+    required: true
+runs:
+  using: "composite"
+  steps:
+    - name: 'Unit Test'
+      shell: bash
+      run: |
+        echo ${{ inputs.app-name }}
+        echo ${{ inputs.github-token }}
