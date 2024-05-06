@@ -45,7 +45,7 @@ export class AppComponent {
   async getUserInfo(userName: string) {
     var a = 10;
     var b = 100;
-    if (this.showSkeleton) return;
+    if (this.showSkeleton) return null;
 
     this.showSkeleton = true;
 
