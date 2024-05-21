@@ -20,9 +20,11 @@ jobs:
         uses: tj-actions/changed-files@v41
       - name: Set filesStatus output to a variable
         id: filesStatus
+        env:
+          ALL_CHANGED_FILES: ${{ steps.changed_files.outputs.all_changed_files }}
         run: |
           if [[ ${{ github.event_name }} != 'push' ]]; then
-            for file in "${{ steps.changed_files.outputs.all_changed_files }}"; do
+            for file in "$ALL_CHANGED_FILES"; do
               echo "$file was changed"
             done
             echo " ${{ steps.changed_files.outputs.all_changed_files }}"
