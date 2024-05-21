@@ -18,10 +18,14 @@ jobs:
       - name: Get all changed files and join them using comma separator
         id: changed_files
         uses: tj-actions/changed-files@v41
+        with:
+          separator: ','
       - name: List all changed files
         env:
           ALL_CHANGED_FILES: ${{ steps.changed_files.outputs.all_changed_files }}
         run: |
-          for file in "$ALL_CHANGED_FILES"; do
-            echo "$file was changed"
+          IFS=',' read -r -a array <<< "${{ steps.changed_files.outputs.all_changed_files }}"
+          for element in "${array[@]}"
+          do
+            echo "file ===>>>> $element"
           done
