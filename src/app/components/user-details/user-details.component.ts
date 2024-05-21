@@ -18,7 +18,7 @@ export interface UserDetailsParams {
 export class UserDetailsComponent {
 
   @Input() userDetails  : UserDetailsParams
-  @Input() showSkeleton : boolean = true
+  @Input() showSkeleton : boolean = false
 
   constructor() { 
 
