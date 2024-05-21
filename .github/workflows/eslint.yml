@@ -1,4 +1,4 @@
-name: Run Code quality checks
+name: Run Code quality checks 2
 
 on:
   pull_request:
