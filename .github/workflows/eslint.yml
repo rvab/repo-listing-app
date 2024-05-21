@@ -18,30 +18,10 @@ jobs:
       - name: Get all changed files and join them using comma separator
         id: changed_files
         uses: tj-actions/changed-files@v41
-      - name: Set filesStatus output to a variable
-        id: filesStatus
+      - name: List all changed files
         env:
-          ALL_CHANGED_FILES: ${{ steps.changed_files.outputs.all_changed_files }}
+          ALL_CHANGED_FILES: ${{ steps.changed-files.outputs.all_changed_files }}
         run: |
-          if [[ ${{ github.event_name }} != 'push' ]]; then
-            for file in "$ALL_CHANGED_FILES"; do
-              echo "$file was changed"
-            done
-            echo " ${{ steps.changed_files.outputs.all_changed_files }}"
-            echo "jstsChanged=${{ contains(steps.changed_files.outputs.all_changed_files, '.ts') ||  (contains(steps.changed_files.outputs.all_changed_files, '.js')) }}" >> $GITHUB_OUTPUT
-            echo "cssChanged=${{ contains(steps.changed_files.outputs.all_changed_files, '.scss') }}" >> $GITHUB_OUTPUT
-            echo "accountsAppChanged=${{ contains(steps.changed_files.outputs.all_changed_files, 'app-v2/apps/accounts/src') }}" >> $GITHUB_OUTPUT
-            echo "spenderAppChanged=${{ contains(steps.changed_files.outputs.all_changed_files, 'app-v2/apps/spender/src') }}" >> $GITHUB_OUTPUT
-            echo "adminAppChanged=${{ contains(steps.changed_files.outputs.all_changed_files, 'app-v2/apps/admin/src') }}" >> $GITHUB_OUTPUT
-            echo "settingsAppChanged=${{ contains(steps.changed_files.outputs.all_changed_files, 'app-v2/apps/settings/src') }}" >> $GITHUB_OUTPUT
-            echo "upsertExpenseAppChanged=${{ contains(steps.changed_files.outputs.all_changed_files, 'app-v2/apps/upsert-expense/src') }}" >> $GITHUB_OUTPUT
-          fi
-      - name: Cache node modules
-        uses: actions/cache@v3
-        id: node-cache
-        with:
-          path: '**/node_modules'
-          key: node-modules-${{ hashFiles('**/package-lock.json') }}
-      - if: ${{ steps.node-cache.outputs.cache-hit != 'true' }}
-        name: Install modules
-        run: npm ci
+          for file in "$ALL_CHANGED_FILES"; do
+            echo "$file was changed"
+          done
