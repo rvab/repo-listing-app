@@ -26,6 +26,6 @@ jobs:
         run: |
           IFS=',' read -r -a array <<< "${{ steps.changed_files.outputs.all_changed_files }}"
           for element in "${array[@]}"
-          do
+          if [[ $element == *.js || $element == *.jsx || $element == *.ts || $element == *.tsx ]]; then
             echo "file ===>>>> $element"
-          done
+          fi
