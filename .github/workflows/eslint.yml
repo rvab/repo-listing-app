@@ -22,6 +22,9 @@ jobs:
         id: filesStatus
         run: |
           if [[ ${{ github.event_name }} != 'push' ]]; then
+            for file in "${{ steps.changed-files.outputs.all_changed_files }}"; do
+              echo "$file was changed"
+            done
             echo " ${{ steps.changed_files.outputs.all_changed_files }}"
             echo "jstsChanged=${{ contains(steps.changed_files.outputs.all_changed_files, '.ts') ||  (contains(steps.changed_files.outputs.all_changed_files, '.js')) }}" >> $GITHUB_OUTPUT
             echo "cssChanged=${{ contains(steps.changed_files.outputs.all_changed_files, '.scss') }}" >> $GITHUB_OUTPUT
