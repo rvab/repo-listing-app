@@ -35,17 +35,3 @@ jobs:
         env:
           ESLINT_PLUGIN_DIFF_COMMIT: ${{ github.event.pull_request.base.ref }}
         run: npx eslint --ext .js,.jsx,.ts,.tsx .
-          # for file in "${steps.changed_files.outputs.all_changed_files}"
-          # do
-          #   if [[ $file == *.js || $file == *.ts ]]; then
-          #     echo "Running ESLint on $file"
-          #     npx eslint "$file"
-          #     if [[ "$?" != 0 ]]; then
-          #       echo "ESLint failed on file: $file"
-          #       eslintFailed=true
-          #     fi
-          #   fi
-          # done
-          # if [ "$eslintFailed" = true ]; then
-          #   exit 1
-          # fi
