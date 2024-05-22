@@ -17,8 +17,7 @@
           "plugin:@angular-eslint/ng-cli-compat",
           "plugin:@angular-eslint/ng-cli-compat--formatting-add-on",
           "plugin:@angular-eslint/template/process-inline-templates",
-          "plugin:diff/diff",
-          "plugin:diff/ci"
+          "plugin:diff/diff"
         ],
         "rules": {
           "@angular-eslint/component-class-suffix": [
