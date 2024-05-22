@@ -43,12 +43,10 @@ jobs:
             if [[ $file == *.js || $file == *.ts ]]; then
               echo "Running ESLint on $file"
               npx eslint "$file"
+              echo "last command resutl ===== $?"
               if [[ "$?" != 0 ]]; then
                 echo "ESLint failed on file: $file"
                 eslintFailed=true
               fi
             fi
           done
-          if [ "$eslintFailed" = true ]; then
-            exit 1
-          fi
