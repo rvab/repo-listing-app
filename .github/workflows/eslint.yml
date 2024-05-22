@@ -1,6 +1,46 @@
-name: Fetch the base branch, so we can use `git diff`
-  run: git fetch origin ${{ github.event.pull_request.base.ref }}:${{ github.event.pull_request.base.ref }}
-name: Run ESLint on modified code
-  env:
-    ESLINT_PLUGIN_DIFF_COMMIT: ${{ github.event.pull_request.base.ref }}
-  run: npx --no-install eslint --ext .js,.ts .
+name: Run Code quality checks 22
+
+on:
+  pull_request:
+    branches: master
+
+  push:
+    branches: master
+
+jobs:
+  files_status:
+    name: check for file changes in JS/TS/SCSS/HTML
+    runs-on: ubuntu-latest
+    outputs:
+      jstsChanged: ${{ steps.filesStatus.outputs.jstsChanged }}
+    steps:
+      - uses: actions/checkout@v3
+      - name: Get all changed files and join them using comma separator
+        id: changed_files
+        uses: tj-actions/changed-files@v41
+        with:
+          separator: ','
+      - name: Cache node modules
+        uses: actions/cache@v3
+        id: node-cache
+        with:
+          path: '**/node_modules'
+          key: node-modules-${{ hashFiles('**/package-lock.json') }}
+      - if: ${{ steps.node-cache.outputs.cache-hit != 'true' }}
+        name: Install modules
+        run: npm ci
+      - name: Fetch the base branch, so we can use `git diff`
+        run: git fetch origin ${{ github.event.pull_request.base.ref }}:${{ github.event.pull_request.base.ref }}
+      - name: List all changed files
+        env:
+          ESLINT_PLUGIN_DIFF_COMMIT: ${{ github.event.pull_request.base.ref }}
+        run: |
+          eslintFailed=false
+          IFS=',' read -r -a filesArray <<< "${{ steps.changed_files.outputs.all_changed_files }}"
+          echo "Modified files: ${filesArray[@]}"
+          for file in "${filesArray[@]}"
+          do
+            if [[ $file == *.js || $file == *.ts ]]; then
+              npx eslint "$file" || eslintFailed=true
+            fi
+          done

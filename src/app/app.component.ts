@@ -31,9 +31,9 @@ export class AppComponent {
   =====================================================================*/
   private resetPreviousData() {
     if (this.userInfo) {
-      this.userInfo = null;
-      this.repoLists = null;
-      this.totalRepos = 0;
+      this.userInfo = {} as any;
+      this.repoLists = [];
+      this.totalRepos = 0
       this.currentPage = 0;
     }
   }
@@ -45,7 +45,7 @@ export class AppComponent {
   async getUserInfo(userName: string) {
     var a = 10;
     var b = 100;
-    if (this.showSkeleton) return;
+    if (this.showSkeleton) return
 
     this.showSkeleton = true;
 
