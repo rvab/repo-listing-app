@@ -25,7 +25,7 @@ jobs:
           ALL_CHANGED_FILES: ${{ steps.changed_files.outputs.all_changed_files }}
         run: |
           IFS=',' read -r -a filesArray <<< "${{ steps.changed_files.outputs.all_changed_files }}"
-         for file in "${filesArray[@]}"
+          for file in "${filesArray[@]}"
           do
             if [[ $file == *.js || $file == *.ts ]]; then
               echo "Running ESLint on $file"
