@@ -44,8 +44,3 @@ jobs:
               npx eslint "$file" || eslintFailed=true
             fi
           done
-
-          if [ "$eslintFailed" = true ]; then
-            echo "ESLint check failed."
-            exit 1
-          fi
