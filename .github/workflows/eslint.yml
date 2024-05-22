@@ -20,6 +20,15 @@ jobs:
         uses: tj-actions/changed-files@v41
         with:
           separator: ','
+      - name: Cache node modules
+        uses: actions/cache@v3
+        id: node-cache
+        with:
+          path: '**/node_modules'
+          key: node-modules-${{ hashFiles('**/package-lock.json') }}
+      - if: ${{ steps.node-cache.outputs.cache-hit != 'true' }}
+        name: Install modules
+        run: npm ci
       - name: List all changed files
         env:
           ALL_CHANGED_FILES: ${{ steps.changed_files.outputs.all_changed_files }}
