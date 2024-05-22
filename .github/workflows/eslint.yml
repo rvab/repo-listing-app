@@ -24,12 +24,18 @@ jobs:
         env:
           ALL_CHANGED_FILES: ${{ steps.changed_files.outputs.all_changed_files }}
         run: |
-          IFS=',' read -r -a array <<< "${{ steps.changed_files.outputs.all_changed_files }}"
-          for file in "${array[@]}"
+          IFS=',' read -r -a filesArray <<< "${{ steps.changed_files.outputs.all_changed_files }}"
+         for file in "${filesArray[@]}"
           do
-            if [[ $file == *.js ]]; then
+            if [[ $file == *.js || $file == *.ts ]]; then
+              echo "Running ESLint on $file"
               npx eslint "$file"
-            elif [[ $file == *.ts ]]; then
-              npx eslint "$file"
+              if [[ "$?" != 0 ]]; then
+                echo "ESLint failed on file: $file"
+                eslintFailed=true
+              fi
             fi
           done
+          if [ "$eslintFailed" = true ]; then
+            exit 1
+          fi
