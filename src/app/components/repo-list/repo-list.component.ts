@@ -29,7 +29,7 @@ export class RepoListComponent {
       this.repoList = []
       for (let i = 0 ; i < 10; i++) {
         this.repoList.push(i as any)
-        console.log('coming here-----')
+        console.log('coming here-----') 
       }
     }
 

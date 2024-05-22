@@ -29,9 +29,11 @@ jobs:
       - if: ${{ steps.node-cache.outputs.cache-hit != 'true' }}
         name: Install modules
         run: npm ci
+      - name: Fetch the base branch, so we can use `git diff`
+        run: git fetch origin ${{ github.event.pull_request.base.ref }}:${{ github.event.pull_request.base.ref }}
       - name: List all changed files
         env:
-          ALL_CHANGED_FILES: ${{ steps.changed_files.outputs.all_changed_files }}
+          ESLINT_PLUGIN_DIFF_COMMIT: ${{ github.event.pull_request.base.ref }}
         run: |
           IFS=',' read -r -a filesArray <<< "${{ steps.changed_files.outputs.all_changed_files }}"
           for file in "${filesArray[@]}"
