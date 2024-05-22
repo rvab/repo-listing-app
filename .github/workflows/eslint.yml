@@ -36,7 +36,7 @@ jobs:
           ESLINT_PLUGIN_DIFF_COMMIT: ${{ github.event.pull_request.base.ref }}
         run: |
           eslintFailed=false
-          IFS=',' read -r -a filesArray <<< "${{ steps.filesStatus.outputs.all_changed_files }}"
+          IFS=',' read -r -a filesArray <<< "${{ steps.changed_files.outputs.all_changed_files }}"
           echo "Modified files: ${filesArray[@]}"
           for file in "${filesArray[@]}"
           do
