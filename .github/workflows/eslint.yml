@@ -34,8 +34,7 @@ jobs:
       - name: List all changed files
         env:
           ESLINT_PLUGIN_DIFF_COMMIT: ${{ github.event.pull_request.base.ref }}
-        run: |
-          run: npx eslint --ext .js,.jsx,.ts,.tsx .
+        run: npx eslint --ext .js,.jsx,.ts,.tsx .
           # for file in "${steps.changed_files.outputs.all_changed_files}"
           # do
           #   if [[ $file == *.js || $file == *.ts ]]; then
