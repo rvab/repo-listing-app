@@ -34,4 +34,21 @@ jobs:
       - name: List all changed files
         env:
           ESLINT_PLUGIN_DIFF_COMMIT: ${{ github.event.pull_request.base.ref }}
-        run: npx eslint --ext .js,.jsx,.ts,.tsx .
+        run: |
+          eslintFailed=false
+          IFS=',' read -r -a filesArray <<< "${{ steps.filesStatus.outputs.all_changed_files }}"
+          echo "Modified files: ${filesArray[@]}"
+          for file in "${filesArray[@]}"
+          do
+            if [[ $file == *.js || $file == *.ts ]]; then
+              echo "Running ESLint on $file"
+              npx eslint "$file"
+              if [[ "$?" != 0 ]]; then
+                echo "ESLint failed on file: $file"
+                eslintFailed=true
+              fi
+            fi
+          done
+          if [ "$eslintFailed" = true ]; then
+            exit 1
+          fi
