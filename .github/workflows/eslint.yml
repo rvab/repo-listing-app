@@ -41,10 +41,7 @@ jobs:
           for file in "${filesArray[@]}"
           do
             if [[ $file == *.js || $file == *.ts ]]; then
-              npx eslint "$file"
-              if [[ "$?" != 0 ]]; then
-                eslintFailed=true
-              fi
+              npx eslint "$file" || eslintFailed=true
             fi
           done
 
